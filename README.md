@@ -14,7 +14,7 @@ After approval, it is introduced to the 'Chopping Block', during which users wil
 The food's category dynamically changes, based on which category gets the most votes, and has a forum associated with each food/dish in which users
 debate and reason on their choice.
 
-The app will also have a ' The Menu' section of exisiting dishes that was introduced again.
+The app will also have a 'The Menu' section of exisiting dishes that was introduced again.
 
 
 
