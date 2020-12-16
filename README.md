@@ -1,7 +1,7 @@
 # Soup-Salad-Sandwich
 Revature: Project 1
 
-Contributors: Henry Chen, 
+Contributors: Henry Chen, Jakeem
 
 Soup Salad Sandwich
 
