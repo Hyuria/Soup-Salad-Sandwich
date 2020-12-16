@@ -1,6 +1,8 @@
 # Soup-Salad-Sandwich
 Revature: Project 1
 
+Contributors: Henry Chen, 
+
 Soup Salad Sandwich
 
 This is an app design for the user base to debate on whether or not a food is under the catagorization of 'soup', 'salad', or 'sandwich'.
