@@ -41,9 +41,9 @@ Database Structure
 
 - User (user_id, username, password, role)
 
-- Role (role_id, User, Admin)
+- Role (role_id, role)
 
-- Forum(forum_id, Dish ID, User ID, date, like count, message)
+- Comment(forum_id, Dish ID, User ID, date, like count, message)
 
 - Dish(dish_id, Dish name, Category, photo_url)
 
