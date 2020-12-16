@@ -48,3 +48,5 @@ Database Structure
 - Dish(dish_id, Dish name, Category, photo_url)
 
 - Vote(vote_id, dish_id, user_id, category_id) (unique constraint on dish_id, user_id)
+
+- Like(like_id, forum_id, user_id, like_or_dislike)
