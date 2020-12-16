@@ -35,13 +35,13 @@ Product Backlog:
 
 Database Structure
 
-- Category (category_id, Soup, Salad, Sandwich, Undecided)
+- Category (category_id, String(Soup, Salad, Sandwich, Undecided))
 
-- Status(status_id, New Dish, Hot Topic, Classic)
+- Status(status_id, String(New Dish, Hot Topic, Classic) )
 
 - User (user_id, username, password, role)
 
-- Role (role_id, role)
+- Role (role_id, String(role))
 
 - Comment(forum_id, Dish ID, User ID, date, like count, message)
 
