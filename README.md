@@ -43,7 +43,7 @@ Database Structure
 
 - Role (role_id, User, Admin)
 
-- Forum(forum_id, Dish ID, User ID, like count, message)
+- Forum(forum_id, Dish ID, User ID, date, like count, message)
 
 - Dish(dish_id, Dish name, Category, photo_url)
 
