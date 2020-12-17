@@ -6,5 +6,12 @@ lib/
 */.idea/*
 */lib/*
 
+#Eclipse
+
+.classpath
+.settings/
+.project
+
+
 .iml
 *.iml
