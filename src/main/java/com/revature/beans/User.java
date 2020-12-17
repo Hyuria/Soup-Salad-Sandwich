@@ -1,11 +1,18 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table
 public class User {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     private String username;
     private String password;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
     private Role role;
 
     public User() {

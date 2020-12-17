@@ -1,11 +1,22 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table
 public class Vote {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "dish_id")
     private Dish dish;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     public Vote() {
