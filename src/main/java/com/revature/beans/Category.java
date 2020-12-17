@@ -21,7 +21,7 @@ public class Category {
     private Integer id;
 
     @OneToMany(fetch=FetchType.EAGER)
-    @JoinCoumn(name="category_id")
+    @JoinColumn(name="category_id")
     private String category;
 
     public Category() {

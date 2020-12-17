@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,18 +24,18 @@ public class Comment {
     private Integer id;
 
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinCoumn(name="dish_id")
+    @JoinColumn(name="dish_id")
     private Dish dish;
 
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinCoumn(name="user_id")
+    @JoinColumn(name="user_id")
     private User user;
 
 
     private Date date;
 
     @OneToOne(fetch=FetchType.EAGER)
-    @JoinCoumn(name="user_comment_id")
+    @JoinColumn(name="user_comment_id")
     private Integer like;
 
 
