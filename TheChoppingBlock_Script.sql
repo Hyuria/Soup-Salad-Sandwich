@@ -49,7 +49,7 @@ create table vote(
 
 create table likes(
 	id serial primary key,
-	user_coments_id int references user_comments,
+	user_comments_id int references user_comments,
 	user_id int references users,
 	thoughts int unique not null check(thoughts in(0,1)) default 0
 );
