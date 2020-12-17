@@ -3,13 +3,43 @@ package com.revature.beans;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+
+
+@Entity
+@Table
 public class Comment {
+    @Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinCoumn(name="dish_id")
     private Dish dish;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinCoumn(name="user_id")
     private User user;
+
+
     private Date date;
+
+    @OneToOne(fetch=FetchType.EAGER)
+    @JoinCoumn(name="user_comment_id")
     private Integer like;
+
+
     private String message;
+
 
     public Comment() {
         id = 0;
