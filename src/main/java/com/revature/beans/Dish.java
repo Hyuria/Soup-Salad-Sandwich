@@ -1,10 +1,17 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table
 public class Dish {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
     private Category category;
     private String photo_url;
 
