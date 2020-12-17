@@ -1,8 +1,13 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table
 public class Status {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
