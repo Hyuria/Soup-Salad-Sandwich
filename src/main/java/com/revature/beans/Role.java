@@ -1,8 +1,12 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Objects;
-
+@Entity
+@Table
 public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String role;
 
