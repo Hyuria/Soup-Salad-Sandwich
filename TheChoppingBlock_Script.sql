@@ -25,6 +25,7 @@ create table users(
 create table dish(
 	id serial primary key,
 	dish_name varchar(30) unique not null,
+	status_id int references status,
 	category_id int references category,
 	photo_url varchar(60)
 );
