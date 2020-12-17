@@ -1,19 +1,37 @@
-# file: ~/.gitignore_global
-.DS_Store
-.idea
-.idea/
-lib/
-*/.idea/*
-*/lib/*
+# Java related
+target/**
+*.jar
+*.war
+*.ear
+*.class
 
-#Eclipse
+# External tool builders
+.externalToolBuilders/
 
+# Eclipse
 .classpath
-.settings/
-*/.settings/*
 .project
+.settings/
+*.pydevproject
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
 
-
-.iml
+# Intellij
+.idea/
 *.iml
-/target/
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
