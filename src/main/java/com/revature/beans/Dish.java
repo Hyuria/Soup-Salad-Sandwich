@@ -9,6 +9,7 @@ public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "dish_name")
     private String name;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")

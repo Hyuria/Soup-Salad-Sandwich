@@ -9,6 +9,7 @@ public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "status_name")
     private String name;
 
     public Status(){
