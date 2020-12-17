@@ -2,8 +2,26 @@ package com.revature.beans;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table
 public class Category {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
+
+    @OneToMany(fetch=FetchType.EAGER)
+    @JoinCoumn(name="category_id")
     private String category;
 
     public Category() {
