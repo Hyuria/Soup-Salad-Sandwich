@@ -6,13 +6,13 @@ public class Like {
     private Integer id;
     private Comment comment;
     private User user;
-    private Integer like;
+    private Integer thoughts;
 
     public Like() {
         id = 0;
         comment = null;
         user = null;
-        like = 0;
+        thoughts = 0;
     }
 
     public Integer getId() {
@@ -40,11 +40,11 @@ public class Like {
     }
 
     public Integer getLike() {
-        return like;
+        return thoughts;
     }
 
     public void setLike(Integer like) {
-        this.like = like;
+        this.thoughts = like;
     }
 
     @Override
@@ -52,12 +52,12 @@ public class Like {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Like like1 = (Like) o;
-        return Objects.equals(id, like1.id) && Objects.equals(comment, like1.comment) && Objects.equals(user, like1.user) && Objects.equals(like, like1.like);
+        return Objects.equals(id, like1.id) && Objects.equals(comment, like1.comment) && Objects.equals(user, like1.user) && Objects.equals(thoughts, like1.thoughts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, comment, user, like);
+        return Objects.hash(id, comment, user, thoughts);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Like {
                 "id=" + id +
                 ", comment=" + comment +
                 ", user=" + user +
-                ", like=" + like +
+                ", like=" + thoughts +
                 '}';
     }
 }
