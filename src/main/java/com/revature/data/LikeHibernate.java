@@ -6,6 +6,8 @@ import com.revature.beans.Like;
 import com.revature.utils.HibernateUtil;
 import org.hibernate.*;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class LikeHibernate implements LikeDAO {
@@ -22,8 +24,8 @@ public class LikeHibernate implements LikeDAO {
 
     @Override
     public Set<Like> getAll() {
-    	Session s = hu,getSession();
-        String query = "from thoughts";
+		Session s = hu.getSession();
+		String query = "FROM Like";
         Query<Like> q = s.createQuery(query, Like.class);
         List<Like> likeList = q.getResultList();
         Set<Like> likeSet = new HashSet<>();
@@ -82,4 +84,26 @@ public class LikeHibernate implements LikeDAO {
         }
         return l;
     }
+
+	public void resetSequence(){
+        /*
+          Used for resetting the primary key 'id' to either 1 or the next highest number. Used primary in JUNIT tests.
+          */
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			if (getAll().size() > 0){
+				s.createSQLQuery("SELECT setval('soup_salad_sandwich.likes_id_seq', max(id)) FROM likes").executeUpdate();
+			}else{
+				s.createSQLQuery("ALTER SEQUENCE soup_salad_sandwich.likes_id_seq RESTART WITH 1").executeUpdate();
+			}
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
+	}
 }

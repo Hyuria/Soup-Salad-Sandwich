@@ -1,13 +1,15 @@
-package src.main.java.com.revature.data;
+package com.revature.data;
 
 import org.hibernate.*;
 
 import com.revature.beans.Dish;
 import com.revature.utils.HibernateUtil;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class DishHibernate implements DishDAO{
+public class DishHibernate implements DishDAO {
 	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 	
     @Override
@@ -37,7 +39,7 @@ public class DishHibernate implements DishDAO{
 
     @Override
     public Set<Dish> getAll() {
-        Session s = hu,getSession();
+        Session s = hu.getSession();
         String query = "from dish";
         Query<Dish> q = s.createQuery(query, Dish.class);
         List<Dish> dishList = q.getResultList();
@@ -78,6 +80,27 @@ public class DishHibernate implements DishDAO{
     	}finally {
     		s.close();
     	}
+    }
 
+    public void resetSequence(){
+        /*
+          Used for resetting the primary key 'id' to either 1 or the next highest number. Used primary in JUNIT tests.
+          */
+        Session s = hu.getSession();
+        Transaction tx = null;
+        try {
+            tx = s.beginTransaction();
+            if (getAll().size() > 0){
+                s.createSQLQuery("SELECT setval('soup_salad_sandwich.dish_id_seq', max(id)) FROM dish").executeUpdate();
+            }else{
+                s.createSQLQuery("ALTER SEQUENCE soup_salad_sandwich.dish_id_seq RESTART WITH 1").executeUpdate();
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+        } finally {
+            s.close();
+        }
     }
 }
