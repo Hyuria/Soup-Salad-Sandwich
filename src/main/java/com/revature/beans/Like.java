@@ -1,10 +1,19 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table (name = "likes")
 public class Like {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_comments_id")
     private Comment comment;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
     private Integer thoughts;
 

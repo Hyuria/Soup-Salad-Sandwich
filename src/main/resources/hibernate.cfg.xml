@@ -16,6 +16,14 @@
         <property name="use_sql_comments">true</property>
 
         <!-- tell hibernate where to find our mappings -->
+        <mapping class="com.revature.beans.Category"></mapping>
+        <mapping class="com.revature.beans.Comment"></mapping>
+        <mapping class="com.revature.beans.Dish"></mapping>
+        <mapping class="com.revature.beans.Like"></mapping>
+        <mapping class="com.revature.beans.Role"></mapping>
+        <mapping class="com.revature.beans.Status"></mapping>
+        <mapping class="com.revature.beans.User"></mapping>
+        <mapping class="com.revature.beans.Vote"></mapping>
 
     </session-factory>
 </hibernate-configuration>

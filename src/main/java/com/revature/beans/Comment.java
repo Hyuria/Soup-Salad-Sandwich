@@ -17,28 +17,21 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table
+@Table (name = "user_comments")
 public class Comment {
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
-
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="dish_id")
     private Dish dish;
-
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user;
-
-
+    @Column(name = "date_posted")
     private Date date;
-
-    @OneToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="user_comment_id")
+    @Column(name = "like_count")
     private Integer like;
-
-
     private String message;
 
 

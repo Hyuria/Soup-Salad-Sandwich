@@ -4,15 +4,16 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table (name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     private String username;
+    @Column (name = "passwrd")
     private String password;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "roles_id")
     private Role role;
 
     public User() {
