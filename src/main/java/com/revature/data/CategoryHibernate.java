@@ -59,7 +59,7 @@ public class CategoryHibernate implements CategoryDAO{
         Transaction tx = null;
         try{
             tx = s.beginTransaction();
-            s.update(t);
+            s.update(category);
             tx.commit();
         }
         catch(Exception e){
@@ -78,7 +78,7 @@ public class CategoryHibernate implements CategoryDAO{
         Transaction tx = null;
         try{
             tx = s.beginTransaction();
-            s.delete(t);
+            s.delete(category);
             tx.commit();
         }
         catch(Exception e){
@@ -87,6 +87,29 @@ public class CategoryHibernate implements CategoryDAO{
             }
         }
         finally{
+            s.close();
+            resetSequence();
+        }
+    }
+
+    public void resetSequence(){
+        /*
+          Used for resetting the primary key 'id' to either 1 or the next highest number. Used primary in JUNIT tests.
+          */
+        Session s = hu.getSession();
+        Transaction tx = null;
+        try {
+            tx = s.beginTransaction();
+            if (getAll().size() > 0){
+                s.createSQLQuery("SELECT setval('soup_salad_sandwich.category_id_seq', max(id)) FROM category").executeUpdate();
+            }else{
+                s.createSQLQuery("ALTER SEQUENCE soup_salad_sandwich.category_id_seq RESTART WITH 1").executeUpdate();
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+        } finally {
             s.close();
         }
     }
