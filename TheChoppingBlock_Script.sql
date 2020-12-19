@@ -25,8 +25,8 @@ create table users(
 create table dish(
 	id serial primary key,
 	dish_name varchar(30) unique not null,
-	status_id int references status,
-	category_id int references category,
+	status_id int references status default 1,
+	category_id int references category default 4,
 	photo_url varchar(60)
 );
 
@@ -80,6 +80,8 @@ insert into users values(default,'caillou','bald',default);
 insert into users values(default,'sierra','nicholes',default);
 insert into users values(default,'gordon','ramsey',default);
 insert into users values(default,'temp','temp',3);
+
+insert into users values(default,'ichirakus',default,default,'www.ramen.com');
 
 
 

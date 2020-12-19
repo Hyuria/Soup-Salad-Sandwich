@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StatusHibernateTest {
-    private StatusHibernate roleHibernate = new StatusHibernate();
+    private StatusHibernate statusHibernate = new StatusHibernate();
 
     private Status status = new Status();
 
@@ -36,7 +36,7 @@ public class StatusHibernateTest {
     @Test
     @Order(4)
     void update() {
-        status.setRole("Update");
+        status.setName("Update");
         statusHibernate.update(status);
         assertEquals(status, statusHibernate.getById(status.getId()));
     }
