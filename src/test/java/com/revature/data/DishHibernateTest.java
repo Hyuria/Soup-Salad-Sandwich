@@ -2,49 +2,52 @@ package com.revature.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import com.revature.beans.Category;
 import com.revature.beans.Dish;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DishHibernateTest {
-	Dish d = new Dish();
-	Category c = new Category();
-	DishHibernate dh = new DishHibernate();
-	Set<Dish> dishSet = new HashSet<>();
+	DishHibernate dishHibernate = new DishHibernate();
+	CategoryHibernate categoryHibernate = new CategoryHibernate();
+	StatusHibernate statusHibernate = new StatusHibernate();
+	Dish dish = new Dish();
 	
 	@Test
+	@Order(1)
 	public void add() {
-		Dish dish = new Dish();
-		d.setName("temp");
-		d.setPhoto_url("temp.temp");
-		dish = dh.add(d);
-		
-		assertEquals(4,dish.getCategory().getId());
+		dish.setStatus(statusHibernate.getById(1));
+		dish.setCategory(categoryHibernate.getById(1));
+		dish.setName("temp");
+		dish.setPhoto_url("temp.temp");
+		Dish retDish = dishHibernate.add(dish);
+		dish.setId(retDish.getId());
+		assertEquals(dish,retDish);
 	}
 	
 	@Test
+	@Order(2)
 	public void getAll() {
-		dishSet = dh.getAll();
-		
-		assertTrue(dishSet.size()>0);
+		assertTrue(dishHibernate.getAll().size() > 0);
 	}
 	
 	@Test
+	@Order(3)
 	public void updateTest() {
-		d.setName("Update");
-		dh.update(d);
-		
-		assertEquals(d, dh.getById(d.getId()));	
+		dish.setName("Update");
+		dishHibernate.update(dish);
+		assertEquals(dish, dishHibernate.getById(dish.getId()));
 	}
 
 	@Test
+	@Order(5)
 	public void deleteTest() {
-		 dh.delete(d);
-	        assertTrue(dh.getById(d.getId()) == null);
+		dishHibernate.delete(dish);
+		assertTrue(dishHibernate.getById(dish.getId()) == null);
 	}
 }

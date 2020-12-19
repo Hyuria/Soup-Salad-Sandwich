@@ -4,13 +4,16 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "dish")
 public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "dish_name")
     private String name;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id")
+    private Status status;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -19,6 +22,7 @@ public class Dish {
     public Dish() {
         id = 0;
         name = "";
+        status = null;
         category = null;
         photo_url = "";
     }
@@ -37,6 +41,14 @@ public class Dish {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Category getCategory() {
@@ -60,12 +72,12 @@ public class Dish {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Dish dish = (Dish) o;
-        return Objects.equals(id, dish.id) && Objects.equals(name, dish.name) && Objects.equals(category, dish.category) && Objects.equals(photo_url, dish.photo_url);
+        return Objects.equals(id, dish.id) && Objects.equals(name, dish.name) && Objects.equals(status, dish.status) && Objects.equals(category, dish.category) && Objects.equals(photo_url, dish.photo_url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, category, photo_url);
+        return Objects.hash(id, name, status, category, photo_url);
     }
 
     @Override
@@ -73,6 +85,7 @@ public class Dish {
         return "Dish{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", status=" + status +
                 ", category=" + category +
                 ", photo_url='" + photo_url + '\'' +
                 '}';

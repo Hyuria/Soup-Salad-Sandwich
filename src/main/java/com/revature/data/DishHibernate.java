@@ -40,7 +40,7 @@ public class DishHibernate implements DishDAO {
     @Override
     public Set<Dish> getAll() {
         Session s = hu.getSession();
-        String query = "from dish";
+        String query = "FROM Dish";
         Query<Dish> q = s.createQuery(query, Dish.class);
         List<Dish> dishList = q.getResultList();
         Set<Dish> dishSet = new HashSet<>();
