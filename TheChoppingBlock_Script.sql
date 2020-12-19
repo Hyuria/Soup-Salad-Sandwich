@@ -2,7 +2,7 @@
 
 create table category(
 	id serial primary key,
-	category_name varchar(9) unique not null check (category_name in('soup','salad','sandwich','undecided'))
+	category_name varchar(9) unique not null check (category_name in('soup','salad','sandwich','undecided','temp'))
 );
 
 create table status(
@@ -12,7 +12,7 @@ create table status(
 
 create table roles(
 	id serial primary key,
-	role_name varchar(5) check (role_name in('user','admin'))
+	role_name varchar(5) check (role_name in('user','admin','temp'))
 );
 
 create table users(
@@ -60,14 +60,17 @@ insert into category values(default,'soup');
 insert into category values(default,'salad');
 insert into category values(default,'sandwich');
 insert into category values(default,'undecided');
+insert into category values(default,'temp');
 
 insert into status values(default,'admin pending');
 insert into status values(default,'new dish');
 insert into status values(default,'hot topic');
 insert into status values(default,'classic');
+insert into status values(default,'temp');
 
 insert into roles values(default,'user');
 insert into roles values(default,'admin');
+insert into roles values(default,'temp');
 
 insert into users values(default,'jakeem','fisher',2);
 insert into users values(default,'henry','chen',2);
@@ -76,6 +79,7 @@ insert into users values(default,'ben','hsieh',2);
 insert into users values(default,'caillou','bald',default);
 insert into users values(default,'sierra','nicholes',default);
 insert into users values(default,'gordon','ramsey',default);
+insert into users values(default,'temp','temp',3);
 
 
 
