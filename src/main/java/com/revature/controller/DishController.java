@@ -48,14 +48,35 @@ public class DishController {
     }
 
     public static void deleteDish(Context context) {
-
+      Integer id = Integer.valueOf(context.pathParam("id"));
+      Dish dish = dishService.getDishById(id);
+      if(dish != null){
+         dishService.deleteDish(dish);
+         context.status(204);
+      }
+      else{
+         context.status(204);
+      }
     }
 
     public static void addDish(Context context) {
+      Dish dish = context.bodyAsClass(Dish.class);
+      dishService.addDish(dish);
+      context.status(201);
     }
 
-    public static void getDishByCategory(Context context) {
-    }
+   public static void getDishByCategory(Context context) {
+      String categoryName = context.pathParam("category");
+      System.out.println("Getting " + categoryName + " dishes...");
+      Set<Dish> dishSet = dishService.getDishByCategory(categoryName);
+      if(dishSet != null){
+         context.status(200);
+         context.json(dishSet);
+      }
+      else{
+         context.status(404);
+      }
+   }
 
     public static void getAllComment(Context context) {
     }

@@ -11,6 +11,7 @@ public interface DishService {
 	   // read
 	   public Dish getDishById(Integer id);
 	   public Set<Dish> getAll();
+		public Set<Dish> getDishByCategory(String categoryName);
 
 	   // update
 	   public void updateDish(Dish d);

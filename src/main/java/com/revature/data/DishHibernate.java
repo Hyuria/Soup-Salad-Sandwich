@@ -1,6 +1,7 @@
 package com.revature.data;
 
 import org.hibernate.*;
+import org.hibernate.query.Query;
 
 import com.revature.beans.Dish;
 import com.revature.utils.HibernateUtil;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 public class DishHibernate implements DishDAO {
 	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
-	
+
     @Override
     public Dish add(Dish d) {
         Session s = hu.getSession();
@@ -31,7 +32,7 @@ public class DishHibernate implements DishDAO {
 
     @Override
     public Dish getById(Integer id) {
-        Session s = hu.getSession();     
+        Session s = hu.getSession();
         Dish d = s.get(Dish.class, id);
         s.close();
         return d;
@@ -48,6 +49,19 @@ public class DishHibernate implements DishDAO {
         s.close();
         return dishSet;
     }
+
+	@Override
+	public Set<Dish> getByCategory(String categoryName){
+		Session s = hu.getSession();
+		String query = "FROM Dish where category.name = :categoryName";
+		Query<Dish> q = s.createQuery(query, Dish.class);
+		q.setParameter("categoryName", categoryName);
+		List<Dish> dishList = q.getResultList();
+		Set<Dish> dishSet = new HashSet<>();
+		dishSet.addAll(dishList);
+		s.close();
+		return dishSet;
+	}
 
     @Override
     public void update(Dish dish) {
