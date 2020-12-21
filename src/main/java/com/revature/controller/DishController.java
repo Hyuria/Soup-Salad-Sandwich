@@ -47,34 +47,34 @@ public class DishController {
         }
     }
 
-    public static void deleteDish(Context context) {
-      Integer id = Integer.valueOf(context.pathParam("id"));
+    public static void deleteDish(Context ctx) {
+      Integer id = Integer.valueOf(ctx.pathParam("id"));
       Dish dish = dishService.getDishById(id);
       if(dish != null){
          dishService.deleteDish(dish);
-         context.status(204);
+          ctx.status(204);
       }
       else{
-         context.status(204);
+          ctx.status(204);
       }
     }
 
-    public static void addDish(Context context) {
-      Dish dish = context.bodyAsClass(Dish.class);
+    public static void addDish(Context ctx) {
+      Dish dish = ctx.bodyAsClass(Dish.class);
       dishService.addDish(dish);
-      context.status(201);
+      ctx.status(201);
     }
 
-   public static void getDishByCategory(Context context) {
-      String categoryName = context.pathParam("category");
+   public static void getDishByCategory(Context ctx) {
+      String categoryName = ctx.pathParam("category");
       System.out.println("Getting " + categoryName + " dishes...");
       Set<Dish> dishSet = dishService.getDishByCategory(categoryName);
       if(dishSet != null){
-         context.status(200);
-         context.json(dishSet);
+          ctx.status(200);
+          ctx.json(dishSet);
       }
       else{
-         context.status(404);
+          ctx.status(404);
       }
    }
 
