@@ -17,8 +17,4 @@ public interface DishService {
 
 	   // delete
 	   public void deleteDish(Dish d);
-	   
-       // Used for resetting the primary key 'id' to either 1 or the next highest number. Used primary in JUNIT tests. 
-	   public void resetSequence();
-
 }

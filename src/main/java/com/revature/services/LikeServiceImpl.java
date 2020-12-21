@@ -38,10 +38,4 @@ public class LikeServiceImpl implements LikeService {
 		likeDAO.delete(l);
 	}
 
-	@Override
-	public void resetSequence() {
-		LikeHibernate lh = new LikeHibernate();
-		lh.resetSequence();
-	}
-
 }

@@ -37,11 +37,4 @@ public class DishServiceImpl implements DishService {
 	public void deleteDish(Dish d) {
 		dishDAO.delete(d);
 	}
-
-	@Override
-	public void resetSequence() {
-		DishHibernate dh = new DishHibernate();
-		dh.resetSequence();
-	}
-
 }

@@ -5,7 +5,7 @@ import com.revature.beans.User;
 
 public interface UserService{
    // create
-   public Integer addUser(User u) throws NonUniqueUsernameException;
+   public User addUser(User u) throws NonUniqueUsernameException;
 
    // read
    public User getUserById(Integer id);
