@@ -13,9 +13,11 @@ public class DishController {
     }
 
     public static void getDishById(Context context) {
+
     }
 
     public static void updateDish(Context context) {
+
     }
 
     public static void deleteDish(Context context) {
@@ -30,9 +32,6 @@ public class DishController {
     public static void getAllComment(Context context) {
     }
 
-    public static void getCommentByDishId(Context context) {
-    }
-
     public static void updateComment(Context context) {
     }
 
@@ -40,5 +39,8 @@ public class DishController {
     }
 
     public static void deleteComment(Context context) {
+    }
+
+    public static void getCommentByCommentId(Context context) {
     }
 }

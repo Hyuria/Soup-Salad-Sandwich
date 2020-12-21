@@ -34,17 +34,17 @@ public class Javalin {
                     get(DishController::getDishById);
                     put(DishController::updateDish);
                     delete(DishController::deleteDish);
-                });
-            });
 
-            path("comment", () -> {
-                get(DishController::getAllComment);
+                    path("comment", () -> {
+                        get(DishController::getAllComment);
 
-                path(":dish_id", () -> {
-                    get(DishController::getCommentByDishId);
-                    put(DishController::updateComment);
-                    post(DishController::addComment);
-                    delete(DishController::deleteComment);
+                        path(":comment_id", () -> {
+                            get(DishController::getCommentByCommentId);
+                            put(DishController::updateComment);
+                            post(DishController::addComment);
+                            delete(DishController::deleteComment);
+                        });
+                    });
                 });
             });
         });
