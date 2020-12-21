@@ -8,7 +8,7 @@ import com.revature.data.DishHibernate;
 
 public class DishServiceImpl implements DishService {
 	private DishDAO dishDAO;
-	
+
 	public DishServiceImpl() {
 		dishDAO = new DishHibernate();
 	}
@@ -26,6 +26,11 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public Set<Dish> getAll() {
 		return dishDAO.getAll();
+	}
+
+	@Override
+	public Set<Dish> getDishByCategory(String categoryName){
+		return dishDAO.getByCategory(categoryName);
 	}
 
 	@Override
