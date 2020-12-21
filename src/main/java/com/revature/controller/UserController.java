@@ -45,4 +45,10 @@ public class UserController {
             ctx.status(404);
         }
     }
+
+    public static void logout(Context ctx){
+      System.out.println("Loging out...");
+      ctx.req.getSession().invalidate();
+      ctx.status(200);
+   }
 }

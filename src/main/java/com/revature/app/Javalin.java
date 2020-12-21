@@ -18,6 +18,7 @@ public class Javalin {
             path("users", () -> {
                 get(UserController::checkLogin);
                 put(UserController::login);
+                delete(UserController::logout);
             });
 
 
