@@ -47,7 +47,7 @@ public class UserController {
     }
 
     public static void logout(Context ctx){
-      System.out.println("Loging out...");
+      System.out.println("Logging out...");
       ctx.req.getSession().invalidate();
       ctx.status(200);
    }

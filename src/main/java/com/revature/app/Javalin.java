@@ -1,5 +1,6 @@
 package com.revature.app;
 
+import com.revature.controller.DishController;
 import com.revature.controller.UserController;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -21,7 +22,31 @@ public class Javalin {
                 delete(UserController::logout);
             });
 
+            path("dish", () -> {
+                get(DishController::getAllDish);
+                post(DishController::addDish);
 
+                path(":category", () -> {
+                    get(DishController::getDishByCategory);
+                });
+
+                path(":id", () -> {
+                    get(DishController::getDishById);
+                    put(DishController::updateDish);
+                    delete(DishController::deleteDish);
+                });
+            });
+
+            path("comment", () -> {
+                get(DishController::getAllComment);
+
+                path(":dish_id", () -> {
+                    get(DishController::getCommentByDishId);
+                    put(DishController::updateComment);
+                    post(DishController::addComment);
+                    delete(DishController::deleteComment);
+                });
+            });
         });
 
     }
