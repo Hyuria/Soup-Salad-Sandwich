@@ -1,6 +1,7 @@
 package com.revature.controller;
 
 import com.revature.beans.User;
+import com.revature.exception.NonUniqueUsernameException;
 import com.revature.services.UserService;
 import com.revature.services.UserServiceImpl;
 import io.javalin.http.Context;
