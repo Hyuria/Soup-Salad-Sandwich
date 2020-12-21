@@ -40,24 +40,62 @@ public class CommentServiceImpl implements CommentService{
 
    @Override
    public void likeComment(Comment c, User u) {
-      Like like = new Like();
-      like.setUser(u);
-      like.setComment(c);
-      likeDAO.add(like);
-      c.setLike(c.getLike() + 1);
-      updateComment(c);
+      Set<Like> likeSet = likeDAO.getAll();
+      Like existingLike = null;
+
+      for (Like l : likeSet){
+         if (l.getUser().getId() == u.getId() && l.getComment().getId() == c.getId()){
+            existingLike = l;
+         }
+      }
+
+      if (existingLike == null){
+         // Adding a new Like for User u / Comment c
+         Like like = new Like();
+         like.setUser(u);
+         like.setComment(c);
+         like.setLike(1);
+         likeDAO.add(like);
+         c.setLike(c.getLike() + 1);
+         updateComment(c);
+      }else{
+         if (existingLike.getLike() == 0) {
+            // If there exist a dislike, that would be deleted
+            likeDAO.delete(existingLike);
+            c.setLike(c.getLike() + 1);
+            updateComment(c);
+         }
+         // If there exist a like, do nothing.
+      }
    }
 
    @Override
    public void dislikeComment(Comment c, User u) {
-      /*
-      Like like = new Like();
-      like.setUser(u);
-      like.setComment(c);
-      likeDAO.add(like);
-      */
-      c.setLike(c.getLike() - 1);
-      updateComment(c);
+      Set<Like> likeSet = likeDAO.getAll();
+      Like existingLike = null;
+
+      for (Like l : likeSet){
+         if (l.getUser().getId() == u.getId() && l.getComment().getId() == c.getId()){
+            existingLike = l;
+         }
+      }
+
+      if (existingLike == null){
+         // Adding a new dislike for User u / Comment c
+         Like like = new Like();
+         like.setUser(u);
+         like.setComment(c);
+         like.setLike(0);
+         likeDAO.add(like);
+      }else{
+         if (existingLike.getLike() == 1) {
+            // If there exist a like, that would be deleted
+            likeDAO.delete(existingLike);
+            c.setLike(c.getLike() - 1);
+            updateComment(c);
+         }
+         // If there exist a dislike, do nothing.
+      }
    }
 
    @Override
