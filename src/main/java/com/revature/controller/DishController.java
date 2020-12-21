@@ -57,13 +57,38 @@ public class DishController {
     public static void getDishByCategory(Context context) {
     }
 
-    public static void getAllComment(Context context) {
+    public static void getAllComment(Context ctx) {
+    	System.out.println("Retrieving comments");
+        Set<Comment> comments = commentService.getAllComments();
+        if (comments != null){
+            ctx.status(200);
+            ctx.json(comments);
+        }else{
+            ctx.status(404);
+        }
     }
 
-    public static void updateComment(Context context) {
+    public static void updateComment(Context ctx) {
+    	System.out.println("Updating comment");
+        Integer id = Integer.valueOf(ctx.pathParam("id"));
+        Comment comment = ctx.bodyAsClass(Comment.class);
+        if (comment != null){
+            ctx.status(200);
+            commentService.updateComment(comment);;
+        }else{
+            ctx.status(404);
+        }
     }
 
-    public static void addComment(Context context) {
+    public static void addComment(Context ctx) {
+    	System.out.println("Inserting a new Comment");
+    	Comment comment = ctx.bodyAsClass(Comment.class);
+        if (comment != null){
+            ctx.status(200);
+            commentService.addComment(comment);;
+        }else{
+            ctx.status(404);
+        }
     }
 
     public static void deleteComment(Context ctx) {
