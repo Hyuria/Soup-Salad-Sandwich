@@ -1,5 +1,8 @@
 package com.revature.services;
 
+import com.revature.beans.Category;
+import com.revature.beans.Dish;
+import com.revature.beans.User;
 import com.revature.beans.Vote;
 import com.revature.data.VoteDAO;
 import com.revature.data.VoteHibernate;
@@ -32,6 +35,35 @@ public class VoteServiceImpl implements VoteService{
     @Override
     public void updateVote(Vote v) {
         voteDAO.update(v);
+    }
+
+    @Override
+    public void categoryVote(User u, Dish d, Category c) throws AlreadyVotedException {
+        Set<Vote> voteSet = voteDAO.getAll();
+        Vote existingVote = null;
+
+        for (Vote v : voteSet){
+            if (v.getUser().getId() == u.getId() && v.getDish().getId() == d.getId()){
+                existingVote = v;
+            }
+        }
+
+        if (existingVote == null){
+            // If user did not vote for this dish yet
+            Vote vote = new Vote();
+            vote.setCategory(c);
+            vote.setUser(u);
+            vote.setDish(d);
+            voteDAO.add(vote);
+        }else{
+            // If the user already voted for this dish already
+            if (existingVote.getCategory().getId() != c.getId()){
+                existingVote.setCategory(c);
+                voteDAO.update(existingVote);
+            }
+            // If the vote is by the same user, for the same dish and category, nothing changes.
+        }
+
     }
 
     @Override

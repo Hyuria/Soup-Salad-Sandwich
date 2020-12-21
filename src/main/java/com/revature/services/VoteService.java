@@ -1,5 +1,8 @@
 package com.revature.services;
 
+import com.revature.beans.Category;
+import com.revature.beans.Dish;
+import com.revature.beans.User;
 import com.revature.beans.Vote;
 import com.revature.exception.AlreadyVotedException;
 
@@ -16,6 +19,7 @@ public interface VoteService {
 
     // Update
     public void updateVote(Vote v);
+    public void categoryVote(User u, Dish d, Category c) throws AlreadyVotedException;
 
     // Delete
     public void deleteVote(Vote v);
