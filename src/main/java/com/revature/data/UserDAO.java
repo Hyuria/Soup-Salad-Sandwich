@@ -5,4 +5,5 @@ import com.revature.exception.NonUniqueUsernameException;
 
 public interface UserDAO extends GenericDAO<User> {
     public User add(User u) throws NonUniqueUsernameException;
+    public User getByUsername(String username);
 }
