@@ -51,4 +51,17 @@ public class UserController {
       ctx.req.getSession().invalidate();
       ctx.status(200);
    }
+
+    public static void registerUser(Context ctx){
+		User newUser = ctx.bodyAsClass(User.class);
+		try {
+			userService.addUser(newUser);
+		}
+		catch(NonUniqueUsernameException e){
+			System.out.println("Username already taken. :(");
+			ctx.status(409);
+		}
+		ctx.status(200);
+	}
+
 }
