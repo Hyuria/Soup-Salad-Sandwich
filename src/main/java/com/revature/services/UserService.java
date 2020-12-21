@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.util.Set;
 import com.revature.exception.NonUniqueUsernameException;
 import com.revature.beans.User;
 
@@ -9,6 +10,7 @@ public interface UserService{
 
    // read
    public User getUserById(Integer id);
+   public Set<User> getAllUsers();
    public User getUserByUsername(String username);
 
    // update

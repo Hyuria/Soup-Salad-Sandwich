@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.util.Set;
 import com.revature.exception.NonUniqueUsernameException;
 import com.revature.beans.User;
 import com.revature.data.UserHibernate;
@@ -20,6 +21,11 @@ public class UserServiceImpl implements UserService{
    @Override
    public User getUserById(Integer id){
       return userDAO.getById(id);
+   }
+
+   @Override
+   public Set<User> getAllUsers(){
+      return userDAO.getAll();
    }
 
    @Override
