@@ -52,7 +52,7 @@ public class DishController {
 		if (dish == null)
 			return ResponseEntity.badRequest().build();
 		return ResponseEntity.ok(dish);
-       
+
     }
 
     @PutMapping(path = "/{id}")
@@ -67,44 +67,40 @@ public class DishController {
     		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     	}
 
-    @DeleteMapping(path = "/{id}")
-    public static void deleteDish(Context ctx) {
-      Integer id = Integer.valueOf(ctx.pathParam("id"));
+   @DeleteMapping(path = "/{id}")
+   public static ResponseEntity<Void> deleteDish(@PathVariable("id") Integer id) {
       Dish dish = dishService.getDishById(id);
       if(dish != null){
          dishService.deleteDish(dish);
-          ctx.status(204);
+         return ResponseEntity.ok().build();
       }
       else{
-          ctx.status(204);
+         return ResponseEntity.notFound().build();
       }
-    }
+   }
 
-    @GetMapping(path = "/{category}")
-   public static void getDishByCategory(Context ctx) {
-      String categoryName = ctx.pathParam("category");
+   @GetMapping(path = "/{category}")
+   public static ResponseEntity<Set<Dish>> getDishByCategory(@PathVariable("ategoryName") String categoryName) {
       System.out.println("Getting " + categoryName + " dishes...");
       Set<Dish> dishSet = dishService.getDishByCategory(categoryName);
       if(dishSet != null){
-          ctx.status(200);
-          ctx.json(dishSet);
+         return ResponseEntity.ok(dishSet);
       }
       else{
-          ctx.status(404);
+         return ResponseEntity.notFound().build();
       }
    }
 
    @GetMapping(path = "/{id}/comment")
-    public static void getAllComment(Context ctx) {
-        System.out.println("Retrieving comments");
-        Set<Comment> comments = commentService.getAllComments();
-        if (comments != null){
-            ctx.status(200);
-            ctx.json(comments);
-        }else{
-            ctx.status(404);
-        }
-    }
+   public static ResponseEntity<Set<Comment>> getAllComment(@PathVariable("id") Integer id) {
+      System.out.println("Retrieving comments");
+      Set<Comment> comments = commentService.getAllComments();
+      if (comments != null){
+         return ResponseEntity.ok(comments);
+      }else{
+         return ResponseEntity.notFound().build();
+      }
+   }
 
     @GetMapping(path = "/{id}/comment/{comment_id}")
     public static void getCommentByCommentId(Context ctx) {
