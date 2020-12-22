@@ -26,6 +26,14 @@ public class Javalin {
                 get(DishController::getAllDish);
                 post(DishController::addDish);
 
+                path("hot", () -> {
+                    get(DishController::getHotDishes);
+                });
+
+                path("recent", () -> {
+                    get(DishController::getRecentlyAddedDishes);
+                });
+
                 path(":category", () -> {
                     get(DishController::getDishByCategory);
                 });

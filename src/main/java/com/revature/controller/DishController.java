@@ -145,4 +145,12 @@ public class DishController {
         }
 
     }
+
+    public static void getRecentlyAddedDishes(Context context) {
+
+    }
+
+    public static void getHotDishes(Context context) {
+
+    }
 }
