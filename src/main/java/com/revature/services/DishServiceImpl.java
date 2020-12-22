@@ -4,15 +4,20 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.stereotype.*;
+
 import com.revature.beans.Dish;
 import com.revature.data.DishDAO;
 import com.revature.data.DishHibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@Service
 public class DishServiceImpl implements DishService {
 	private DishDAO dishDAO;
-
-	public DishServiceImpl() {
-		dishDAO = new DishHibernate();
+	
+	@Autowired
+	public DishServiceImpl(DishDAO d) {
+		dishDAO = d;
 	}
 
 	@Override

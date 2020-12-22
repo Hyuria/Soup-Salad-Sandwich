@@ -2,15 +2,20 @@ package com.revature.services;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.revature.beans.Like;
 import com.revature.data.LikeDAO;
 import com.revature.data.LikeHibernate;
 
+@Service
 public class LikeServiceImpl implements LikeService {
 	private LikeDAO likeDAO;
 	
-	public LikeServiceImpl() {
-		likeDAO = new LikeHibernate();
+	@Autowired
+	public LikeServiceImpl(LikeDAO l) {
+		likeDAO = l;
 	}
 
 	@Override
