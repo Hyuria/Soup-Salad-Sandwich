@@ -5,11 +5,13 @@ import com.revature.beans.Like;
 
 import com.revature.utils.HibernateUtil;
 import org.hibernate.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Repository
 public class LikeHibernate implements LikeDAO {
 	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 	

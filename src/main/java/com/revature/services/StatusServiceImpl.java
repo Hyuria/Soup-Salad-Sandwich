@@ -2,15 +2,18 @@ package com.revature.services;
 
 import com.revature.beans.Status;
 import com.revature.data.StatusDAO;
-import com.revature.data.StatusHibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class StatusServiceImpl implements StatusService{
     private StatusDAO statusDAO;
 
-    public StatusServiceImpl(){
-        statusDAO = new StatusHibernate();
+    @Autowired
+    public StatusServiceImpl(StatusDAO s){
+        statusDAO = s;
     }
 
     @Override

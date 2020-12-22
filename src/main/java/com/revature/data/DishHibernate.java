@@ -5,11 +5,13 @@ import org.hibernate.query.Query;
 
 import com.revature.beans.Dish;
 import com.revature.utils.HibernateUtil;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Repository
 public class DishHibernate implements DishDAO {
 	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
@@ -53,7 +55,7 @@ public class DishHibernate implements DishDAO {
 	@Override
 	public Set<Dish> getByCategory(String categoryName){
 		Session s = hu.getSession();
-		String query = "FROM Dish where category.name = :categoryName";
+		String query = "FROM Dish where category.category = :categoryName";
 		Query<Dish> q = s.createQuery(query, Dish.class);
 		q.setParameter("categoryName", categoryName);
 		List<Dish> dishList = q.getResultList();

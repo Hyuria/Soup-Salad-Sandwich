@@ -5,12 +5,16 @@ import com.revature.exception.NonUniqueUsernameException;
 import com.revature.beans.User;
 import com.revature.data.UserHibernate;
 import com.revature.data.UserDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImpl implements UserService{
    private UserDAO userDAO;
 
-   public UserServiceImpl(){
-      userDAO = new UserHibernate();
+   @Autowired
+   public UserServiceImpl(UserDAO u){
+      userDAO = u;
    }
 
    @Override
