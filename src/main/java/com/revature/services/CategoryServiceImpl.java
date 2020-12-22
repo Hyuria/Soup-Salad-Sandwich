@@ -1,15 +1,18 @@
 package com.revature.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.Set;
-import com.revature.data.CategoryHibernate;
 import com.revature.data.CategoryDAO;
 import com.revature.beans.Category;
 
+@Service
 public class CategoryServiceImpl implements CategoryService{
    private CategoryDAO categoryDAO;
 
-   public CategoryServiceImpl(){
-      categoryDAO = new CategoryHibernate();
+   @Autowired
+   public CategoryServiceImpl(CategoryDAO c){
+      categoryDAO = c;
    }
 
    @Override

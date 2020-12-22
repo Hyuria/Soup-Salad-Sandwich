@@ -1,21 +1,23 @@
 package com.revature.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.revature.beans.Like;
 import com.revature.data.LikeDAO;
 import com.revature.beans.User;
 import java.util.Set;
 import com.revature.beans.Comment;
 import com.revature.data.CommentDAO;
-import com.revature.data.CommentHibernate;
-import com.revature.data.LikeHibernate;
 
+@Service
 public class CommentServiceImpl implements CommentService{
    private CommentDAO commentDAO;
    private LikeDAO likeDAO;
 
-   public CommentServiceImpl(){
-      commentDAO = new CommentHibernate();
-      likeDAO = new LikeHibernate();
+   @Autowired
+   public CommentServiceImpl(CommentDAO c, LikeDAO l){
+      commentDAO = c;
+      likeDAO = l;
    }
 
    @Override
