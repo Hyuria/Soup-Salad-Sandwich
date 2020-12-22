@@ -6,11 +6,13 @@ import com.revature.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Repository
 public class CommentHibernate implements CommentDAO{
     private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 

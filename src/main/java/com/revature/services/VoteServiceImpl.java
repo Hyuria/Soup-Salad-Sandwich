@@ -7,14 +7,18 @@ import com.revature.beans.Vote;
 import com.revature.data.VoteDAO;
 import com.revature.data.VoteHibernate;
 import com.revature.exception.AlreadyVotedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class VoteServiceImpl implements VoteService{
     private VoteDAO voteDAO;
 
-    public VoteServiceImpl(){
-        voteDAO = new VoteHibernate();
+    @Autowired
+    public VoteServiceImpl(VoteDAO v){
+        voteDAO = v;
     }
 
     @Override

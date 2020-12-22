@@ -3,66 +3,70 @@ package com.revature.controller;
 import com.revature.beans.User;
 import com.revature.exception.NonUniqueUsernameException;
 import com.revature.services.UserService;
-import com.revature.services.UserServiceImpl;
-import io.javalin.http.Context;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
+@RestController
+@CrossOrigin(origins="http://localhost:4200", allowCredentials="true")
+@RequestMapping(path="/users")
 public class UserController {
-    private static UserService userService = new UserServiceImpl();
+    private static UserService userService;
 
-    public static void checkLogin(Context ctx){
-        System.out.println("Checking Login");
-        User user = ctx.sessionAttribute("user");
-        if (user != null){
-            System.out.println("Logged in as: " + user.getUsername());
-            ctx.json(user);
-            ctx.status(200);
-        }else{
-            System.out.println("Not Logged In");
-            ctx.status(400);
-        }
+    public UserController(UserService u){
+        userService = u;
     }
 
-    public static void login(Context ctx){
-        System.out.println("Logging In");
-        String username = ctx.queryParam("user");
-        String password = ctx.queryParam("pass");
+    @GetMapping
+    public ResponseEntity<Object> checkLogin(HttpSession session){
+        System.out.println("Checking Login");
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(user);
+    }
 
+    @PutMapping
+    public ResponseEntity<User> login(HttpSession session, @RequestParam("user") String username, @RequestParam("pass") String password){
+        System.out.println("Logging In");
         User user = userService.getUserByUsername(username);
         if (user != null){
-            if (user.getPassword() == password){
+            if (user.getPassword().equals(password)){
                 // Authenticated
                 System.out.println("Logged in as: " + user.getUsername());
-                ctx.json(user);
-                ctx.status(200);
-                ctx.sessionAttribute("user", user);
+                session.setAttribute("user", user);
+                return ResponseEntity.ok(user);
             }else{
                 // Wrong password
                 System.out.println("Wrong password");
-                ctx.status(400);
+                return ResponseEntity.badRequest().build();
             }
         }else{
             // No user found with that username
             System.out.println("No user found");
-            ctx.status(404);
+            return ResponseEntity.notFound().build();
         }
     }
 
-    public static void logout(Context ctx){
-      System.out.println("Logging out...");
-      ctx.req.getSession().invalidate();
-      ctx.status(200);
-   }
+    @PostMapping
+    public ResponseEntity<Void> registerUser(HttpSession session, @RequestBody User user){
+        try {
+            userService.addUser(user);
+        }
+        catch(NonUniqueUsernameException e){
+            System.out.println("Username already taken :(");
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
 
-    public static void registerUser(Context ctx){
-		User newUser = ctx.bodyAsClass(User.class);
-		try {
-			userService.addUser(newUser);
-		}
-		catch(NonUniqueUsernameException e){
-			System.out.println("Username already taken. :(");
-			ctx.status(409);
-		}
-		ctx.status(200);
-	}
+    @DeleteMapping
+    public ResponseEntity<Void> logOut(HttpSession session) {
+        System.out.println("Logging Out");
+        session.invalidate();
+        return ResponseEntity.ok().build();
+    }
 
 }

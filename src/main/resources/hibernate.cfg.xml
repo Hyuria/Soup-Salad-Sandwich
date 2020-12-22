@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver.class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://revature-training.cxxetslh1edl.us-east-2.rds.amazonaws.com:5432/postgres?currentSchema=soup_salad_sandwich</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">qazwsxedc</property>
