@@ -5,10 +5,13 @@ import com.revature.beans.Dish;
 import com.revature.services.CommentService;
 import com.revature.services.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Set;
+import java.util.HashSet;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200", allowCredentials="true")
@@ -25,48 +28,44 @@ public class DishController {
 
 
     @GetMapping
-    public static void getAllDish(HttpSession session) {
+    public static ResponseEntity<Set<Dish>> getAllDish(HttpSession session) {
         System.out.println("Getting all Dish");
-        Set<Dish> dishes = dishService.getAll();
-        if (dishes != null){
-            ctx.status(200);
-            ctx.json(dishes);
-        }else{
-            ctx.status(404);
-        }
+		Set<Dish> dishSet = (HashSet<Dish>) session.getAttribute("dish");
+        if (dishSet.size() == 0)
+			return ResponseEntity.badRequest().build();
+		return ResponseEntity.ok(dishSet);
     }
 
     @PostMapping
-    public static void addDish(Context ctx) {
-        Dish dish = ctx.bodyAsClass(Dish.class);
-        dishService.addDish(dish);
-        ctx.status(201);
+    public static ResponseEntity<Void> addDish(HttpSession session, @RequestBody Dish d) {
+        System.out.println("Adding new dish");
+    	dishService.addDish(d);
+        return ResponseEntity.ok().build();
     }
 
 
     // PATH = /id
     @GetMapping(path = "/{id}")
-    public static void getDishById(Context ctx) {
+    public static ResponseEntity<Dish> getDishById(HttpSession session) {
         System.out.println("Getting Dish By ID");
-        Integer id = Integer.valueOf(ctx.pathParam("id"));
-        Dish dish = dishService.getDishById(id);
-        if (dish != null){
-            ctx.status(200);
-        }
+        Dish dish = (Dish) session.getAttribute("id");
+		if (dish == null)
+			return ResponseEntity.badRequest().build();
+		return ResponseEntity.ok(dish);
+       
     }
 
     @PutMapping(path = "/{id}")
-    public static void updateDish(Context ctx) {
-        System.out.println("Updating Dish");
-        Integer id = Integer.valueOf(ctx.pathParam("id"));
-        Dish dish = ctx.bodyAsClass(Dish.class);
-        if (dish != null){
-            ctx.status(200);
-            dishService.updateDish(dish);
-        }else{
-            ctx.status(404);
-        }
-    }
+    public static ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id,
+        @RequestBody Dish dish) {
+    		System.out.println("Updating Dish");
+    		Dish d = (Dish) session.getAttribute("dish");
+    		if (d != null && d.getId().equals(id)) {
+    			dishService.updateDish(dish);
+    			return ResponseEntity.ok().build();
+    		}
+    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    	}
 
     @DeleteMapping(path = "/{id}")
     public static void deleteDish(Context ctx) {
