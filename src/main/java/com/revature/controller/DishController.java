@@ -3,19 +3,29 @@ package com.revature.controller;
 import com.revature.beans.Comment;
 import com.revature.beans.Dish;
 import com.revature.services.CommentService;
-import com.revature.services.CommentServiceImpl;
 import com.revature.services.DishService;
-import com.revature.services.DishServiceImpl;
-import io.javalin.http.Context;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Set;
 
+@RestController
+@CrossOrigin(origins="http://localhost:4200", allowCredentials="true")
+@RequestMapping(path="/dish")
 public class DishController {
-    private static DishService dishService = new DishServiceImpl();
-    private static CommentService commentService = new CommentServiceImpl();
+    private static DishService dishService;
+    private static CommentService commentService;
+
+    @Autowired
+    public DishController(DishService d, CommentService c){
+        dishService = d;
+        commentService = c;
+    }
 
 
-    public static void getAllDish(Context ctx) {
+    @GetMapping
+    public static void getAllDish(HttpSession session) {
         System.out.println("Getting all Dish");
         Set<Dish> dishes = dishService.getAll();
         if (dishes != null){
@@ -26,6 +36,16 @@ public class DishController {
         }
     }
 
+    @PostMapping
+    public static void addDish(Context ctx) {
+        Dish dish = ctx.bodyAsClass(Dish.class);
+        dishService.addDish(dish);
+        ctx.status(201);
+    }
+
+
+    // PATH = /id
+    @GetMapping(path = "/{id}")
     public static void getDishById(Context ctx) {
         System.out.println("Getting Dish By ID");
         Integer id = Integer.valueOf(ctx.pathParam("id"));
@@ -35,6 +55,7 @@ public class DishController {
         }
     }
 
+    @PutMapping(path = "/{id}")
     public static void updateDish(Context ctx) {
         System.out.println("Updating Dish");
         Integer id = Integer.valueOf(ctx.pathParam("id"));
@@ -47,6 +68,7 @@ public class DishController {
         }
     }
 
+    @DeleteMapping(path = "/{id}")
     public static void deleteDish(Context ctx) {
       Integer id = Integer.valueOf(ctx.pathParam("id"));
       Dish dish = dishService.getDishById(id);
@@ -59,12 +81,7 @@ public class DishController {
       }
     }
 
-    public static void addDish(Context ctx) {
-      Dish dish = ctx.bodyAsClass(Dish.class);
-      dishService.addDish(dish);
-      ctx.status(201);
-    }
-
+    @GetMapping(path = "/{category}")
    public static void getDishByCategory(Context ctx) {
       String categoryName = ctx.pathParam("category");
       System.out.println("Getting " + categoryName + " dishes...");
@@ -78,8 +95,9 @@ public class DishController {
       }
    }
 
+   @GetMapping(path = "/{id}/comment")
     public static void getAllComment(Context ctx) {
-    	System.out.println("Retrieving comments");
+        System.out.println("Retrieving comments");
         Set<Comment> comments = commentService.getAllComments();
         if (comments != null){
             ctx.status(200);
@@ -89,41 +107,7 @@ public class DishController {
         }
     }
 
-    public static void updateComment(Context ctx) {
-    	System.out.println("Updating comment");
-        Integer id = Integer.valueOf(ctx.pathParam("id"));
-        Comment comment = ctx.bodyAsClass(Comment.class);
-        if (comment != null){
-            ctx.status(200);
-            commentService.updateComment(comment);;
-        }else{
-            ctx.status(404);
-        }
-    }
-
-    public static void addComment(Context ctx) {
-    	System.out.println("Inserting a new Comment");
-    	Comment comment = ctx.bodyAsClass(Comment.class);
-        if (comment != null){
-            ctx.status(200);
-            commentService.addComment(comment);;
-        }else{
-            ctx.status(404);
-        }
-    }
-
-    public static void deleteComment(Context ctx) {
-        Integer comment_id = Integer.valueOf(ctx.pathParam("comment_id"));
-        Comment comment = commentService.getCommentById(comment_id);
-
-        if (comment != null){
-            commentService.deleteComment(comment);
-            ctx.status(200);
-        }else{
-            ctx.status(404);
-        }
-    }
-
+    @GetMapping(path = "/{id}/comment/{comment_id}")
     public static void getCommentByCommentId(Context ctx) {
         Integer dish_id = Integer.valueOf(ctx.pathParam("id"));
         Integer comment_id = Integer.valueOf(ctx.pathParam("comment_id"));
@@ -145,6 +129,46 @@ public class DishController {
         }
 
     }
+
+    @PutMapping(path = "/{id}/comment/{comment_id}")
+    public static void updateComment(Context ctx) {
+    	System.out.println("Updating comment");
+        Integer id = Integer.valueOf(ctx.pathParam("id"));
+        Comment comment = ctx.bodyAsClass(Comment.class);
+        if (comment != null){
+            ctx.status(200);
+            commentService.updateComment(comment);;
+        }else{
+            ctx.status(404);
+        }
+    }
+
+    @PostMapping(path = "/{id}/comment/")
+    public static void addComment(Context ctx) {
+    	System.out.println("Inserting a new Comment");
+    	Comment comment = ctx.bodyAsClass(Comment.class);
+        if (comment != null){
+            ctx.status(200);
+            commentService.addComment(comment);;
+        }else{
+            ctx.status(404);
+        }
+    }
+
+    @DeleteMapping(path = "/{id}/comment/{comment_id}")
+    public static void deleteComment(Context ctx) {
+        Integer comment_id = Integer.valueOf(ctx.pathParam("comment_id"));
+        Comment comment = commentService.getCommentById(comment_id);
+
+        if (comment != null){
+            commentService.deleteComment(comment);
+            ctx.status(200);
+        }else{
+            ctx.status(404);
+        }
+    }
+
+
 
     public static void getRecentlyAddedDishes(Context context) {
 

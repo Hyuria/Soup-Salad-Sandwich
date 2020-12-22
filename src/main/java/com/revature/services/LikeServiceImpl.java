@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.revature.beans.Like;
 import com.revature.data.LikeDAO;
-import com.revature.data.LikeHibernate;
 
 @Service
 public class LikeServiceImpl implements LikeService {

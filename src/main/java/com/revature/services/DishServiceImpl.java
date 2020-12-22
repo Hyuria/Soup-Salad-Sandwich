@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,7 +7,6 @@ import org.springframework.stereotype.*;
 
 import com.revature.beans.Dish;
 import com.revature.data.DishDAO;
-import com.revature.data.DishHibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
