@@ -34,6 +34,7 @@ public class UserController {
     public ResponseEntity<User> login(HttpSession session, @RequestParam("user") String username, @RequestParam("pass") String password){
         System.out.println("Logging In");
         User user = userService.getUserByUsername(username);
+        System.out.println(user);
         if (user != null){
             if (user.getPassword().equals(password)){
                 // Authenticated

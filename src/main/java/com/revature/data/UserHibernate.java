@@ -8,6 +8,10 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,13 +50,15 @@ public class UserHibernate implements UserDAO {
 
     @Override
     public User getByUsername(String username){
-      Session s = hu.getSession();
-      String query = "FROM User WHERE User.username = :username";
-      Query<User> q = s.createQuery(query, User.class);
-      q.setParameter("username", username);
-      User user = q.getSingleResult();
-      s.close();
-      return user;
+        Session s = hu.getSession();
+        CriteriaBuilder cb = s.getCriteriaBuilder();
+        CriteriaQuery<User> criteria = cb.createQuery(User.class);
+        Root<User> root = criteria.from(User.class);
+
+        Predicate predicateForUsername = cb.equal(root.get("username"), username);
+        criteria.select(root).where(predicateForUsername);
+        User user = s.createQuery(criteria).getSingleResult();
+        return user;
    }
 
     @Override

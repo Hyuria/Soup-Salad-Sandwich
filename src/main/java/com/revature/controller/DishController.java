@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Set;
-import java.util.HashSet;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200", allowCredentials="true")
