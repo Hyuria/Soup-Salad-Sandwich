@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import com.revature.beans.Comment;
 import com.revature.beans.Dish;
+import com.revature.beans.Status;
 import com.revature.services.CommentService;
 import com.revature.services.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class DishController {
     @GetMapping
     public static ResponseEntity<Set<Dish>> getAllDish(HttpSession session) {
         System.out.println("Getting all Dish");
-		Set<Dish> dishSet = (HashSet<Dish>) session.getAttribute("dish");
+		Set<Dish> dishSet = dishService.getAll();
         if (dishSet.size() == 0)
 			return ResponseEntity.badRequest().build();
 		return ResponseEntity.ok(dishSet);
@@ -46,9 +47,9 @@ public class DishController {
 
     // PATH = /id
     @GetMapping(path = "/{id}")
-    public static ResponseEntity<Dish> getDishById(HttpSession session) {
+    public static ResponseEntity<Dish> getDishById(HttpSession session, @PathVariable("id") Integer id) {
         System.out.println("Getting Dish By ID");
-        Dish dish = (Dish) session.getAttribute("id");
+        Dish dish = dishService.getDishById(id);
 		if (dish == null)
 			return ResponseEntity.badRequest().build();
 		return ResponseEntity.ok(dish);
@@ -56,10 +57,9 @@ public class DishController {
     }
 
     @PutMapping(path = "/{id}")
-    public static ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id,
-        @RequestBody Dish dish) {
+    public static ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id, @RequestBody Dish dish) {
     		System.out.println("Updating Dish");
-    		Dish d = (Dish) session.getAttribute("dish");
+    		Dish d = dishService.getDishById(dish.getId());
     		if (d != null && d.getId().equals(id)) {
     			dishService.updateDish(dish);
     			return ResponseEntity.ok().build();
@@ -80,7 +80,7 @@ public class DishController {
    }
 
    @GetMapping(path = "/{category}")
-   public static ResponseEntity<Set<Dish>> getDishByCategory(@PathVariable("ategoryName") String categoryName) {
+   public static ResponseEntity<Set<Dish>> getDishByCategory(@PathVariable("category") String categoryName) {
       System.out.println("Getting " + categoryName + " dishes...");
       Set<Dish> dishSet = dishService.getDishByCategory(categoryName);
       if(dishSet != null){
@@ -94,7 +94,7 @@ public class DishController {
    @GetMapping(path = "/{id}/comment")
    public static ResponseEntity<Set<Comment>> getAllComment(@PathVariable("id") Integer id) {
       System.out.println("Retrieving comments");
-      Set<Comment> comments = commentService.getAllComments();
+      Set<Comment> comments = commentService.getAllCommentsByDish(dishService.getDishById(id));
       if (comments != null){
          return ResponseEntity.ok(comments);
       }else{
@@ -103,18 +103,14 @@ public class DishController {
    }
 
     @GetMapping(path = "/{id}/comment/{comment_id}")
-    public ResponseEntity<Comment> getCommentByCommentId(HttpSession session) {
-    	Integer dish_id = (Integer) session.getAttribute("id");
-    	Integer comment_id = (Integer) session.getAttribute("comment_id");
+    public ResponseEntity<Comment> getCommentByCommentId(HttpSession session, @PathVariable("id") Integer dish_id, @PathVariable("comment_id") Integer comment_id) {
         Set<Comment> commentSet = commentService.getAllComments();
         Comment comment = null;
-
         for (Comment c : commentSet){
             if (c.getDish().getId() == dish_id && c.getId() == comment_id){
                 comment = c;
             }
         }
-
         if (comment != null){
             return ResponseEntity.ok(comment);
         }else{
@@ -125,39 +121,34 @@ public class DishController {
     }
 
     @PutMapping(path = "/{id}/comment/{comment_id}")
-    public static ResponseEntity<Comment> updateComment(HttpSession session, @RequestBody Comment c) {
+    public static ResponseEntity<Comment> updateComment(HttpSession session, @RequestBody Comment c, @PathVariable("comment_id") Integer comment_id) {
     	System.out.println("Updating comment");
-        Integer id = (Integer) session.getAttribute("id");
-        Comment comment = commentService.getCommentById(id);
-        if (comment != null){	
-            commentService.updateComment(comment);
-            return ResponseEntity.ok(comment);
+        if (c != null && c.getId() == comment_id){
+            commentService.updateComment(c);
+            return ResponseEntity.ok(c);
         }else{
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping(path = "/{id}/comment/")
-    public static ResponseEntity<Comment> addComment(HttpSession session, @RequestBody Comment c) {
+    public static ResponseEntity<Status> addComment(HttpSession session, @RequestBody Comment c, @PathVariable("id") Integer dish_id) {
     	System.out.println("Inserting a new Comment");
-    	Integer id = (Integer) session.getAttribute("id");
-    	Comment comment = commentService.getCommentById(id);
-        if (comment != null){
-            commentService.addComment(comment);
-            return ResponseEntity.ok(comment);
+        if (c != null){
+            c.setDish(dishService.getDishById(dish_id));
+            commentService.addComment(c);
+            return ResponseEntity.ok().build();
         }else{
         	return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping(path = "/{id}/comment/{comment_id}")
-    public static ResponseEntity<Comment> deleteComment(HttpSession session) {
-        Integer comment_id = (Integer) session.getAttribute("comment_id");
+    public static ResponseEntity<Status> deleteComment(HttpSession session, @PathVariable("comment_id") Integer comment_id) {
         Comment comment = commentService.getCommentById(comment_id);
-
         if (comment != null){
             commentService.deleteComment(comment);
-            return ResponseEntity.ok(comment);
+            return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.notFound().build();
         }

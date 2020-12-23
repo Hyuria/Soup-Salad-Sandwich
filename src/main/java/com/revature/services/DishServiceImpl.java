@@ -1,8 +1,11 @@
 package com.revature.services;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.revature.beans.Comment;
+import com.revature.data.CommentDAO;
 import org.springframework.stereotype.*;
 
 import com.revature.beans.Dish;
@@ -12,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Service
 public class DishServiceImpl implements DishService {
 	private DishDAO dishDAO;
+	private CommentDAO commentDAO;
 	
 	@Autowired
-	public DishServiceImpl(DishDAO d) {
+	public DishServiceImpl(DishDAO d, CommentDAO c) {
 		dishDAO = d;
+		commentDAO = c;
 	}
 
 	@Override
@@ -40,20 +45,37 @@ public class DishServiceImpl implements DishService {
 
 	@Override
 	public Set<Dish> getHotDishes() {
-		// Get 5 dishes with the most recent activity that are not in recents
-		Set<Dish> dishSet = dishDAO.getAll();
-		Set<Dish> filterSet = new HashSet<>();
+		// Get 5 dishes with the most recent activity that are not in recent
+		Set<Comment> commentSet = commentDAO.getAll();
+		Set<Dish> hotDishes = new HashSet<>();
+		Set<Dish> recentlyAddedDishes = getRecentlyAddedDishes();
 
-
-
+		while (hotDishes.size() < 5){
+			Date lastestTime = null;
+			Dish dishToBeAdded = null;
+			Comment commentToDelete = null;
+			for (Comment c : commentSet){
+				// If the comment is recent
+				if (lastestTime == null || c.getDate().after(lastestTime)){
+					// If the dish associated with the comment is not in recentlyAddedDishes or hotDishes
+					if (!hotDishes.contains(c.getDish()) || !recentlyAddedDishes.contains(c.getDish())){
+						dishToBeAdded = c.getDish();
+						lastestTime = c.getDate();
+						commentToDelete = c;
+					}
+				}
+			}
+			hotDishes.add(dishToBeAdded);
+			commentSet.remove(commentToDelete);
+		}
 		return null;
 	}
 
 	@Override
 	public Set<Dish> getRecentlyAddedDishes() {
 		Set<Dish> dishSet = dishDAO.getAll();
-		Set<Dish> recentDish = new HashSet<>();
-		while(recentDish.size() <= 5){
+		Set<Dish> recentDishes = new HashSet<>();
+		while(recentDishes.size() < 5){
 			Integer highestId = 0;
 			Dish dishToBeAdded = null;
 			for (Dish d : dishSet){
@@ -61,10 +83,10 @@ public class DishServiceImpl implements DishService {
 					dishToBeAdded = d;
 				}
 			}
-			recentDish.add(dishToBeAdded);
+			recentDishes.add(dishToBeAdded);
 			dishSet.remove(dishToBeAdded);
 		}
-		return recentDish;
+		return recentDishes;
 	}
 
 

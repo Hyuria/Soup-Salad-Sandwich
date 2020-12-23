@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.beans.Dish;
 import com.revature.beans.User;
 import java.util.Set;
 import com.revature.beans.Comment;
@@ -11,6 +12,7 @@ public interface CommentService{
    // read
    public Comment getCommentById(Integer id);
    public Set<Comment> getAllComments();
+   public Set<Comment> getAllCommentsByDish(Dish dish);
 
    // update
    public void updateComment(Comment c);

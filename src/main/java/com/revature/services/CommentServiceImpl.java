@@ -1,10 +1,13 @@
 package com.revature.services;
 
+import com.revature.beans.Dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.beans.Like;
 import com.revature.data.LikeDAO;
 import com.revature.beans.User;
+
+import java.util.HashSet;
 import java.util.Set;
 import com.revature.beans.Comment;
 import com.revature.data.CommentDAO;
@@ -33,6 +36,18 @@ public class CommentServiceImpl implements CommentService{
    @Override
    public Set<Comment> getAllComments(){
       return commentDAO.getAll();
+   }
+
+   @Override
+   public Set<Comment> getAllCommentsByDish(Dish d) {
+      Set<Comment> commentSet = commentDAO.getAll();
+      Set<Comment> filterSet = new HashSet<>();
+      for (Comment c : commentSet){
+         if (c.getDish().getId() == d.getId()){
+            filterSet.add(c);
+         }
+      }
+      return filterSet;
    }
 
    @Override
