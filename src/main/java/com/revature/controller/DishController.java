@@ -29,7 +29,7 @@ public class DishController {
 
 
     @GetMapping
-    public static ResponseEntity<Set<Dish>> getAllDish(HttpSession session) {
+    public ResponseEntity<Set<Dish>> getAllDish(HttpSession session) {
         System.out.println("Getting all Dish");
 		Set<Dish> dishSet = dishService.getAll();
         if (dishSet.size() == 0)
@@ -38,7 +38,7 @@ public class DishController {
     }
 
     @PostMapping
-    public static ResponseEntity<Void> addDish(HttpSession session, @RequestBody Dish d) {
+    public ResponseEntity<Void> addDish(HttpSession session, @RequestBody Dish d) {
         System.out.println("Adding new dish");
     	dishService.addDish(d);
         return ResponseEntity.ok().build();
@@ -47,7 +47,7 @@ public class DishController {
 
     // PATH = /id
     @GetMapping(path = "/{id}")
-    public static ResponseEntity<Dish> getDishById(HttpSession session, @PathVariable("id") Integer id) {
+    public ResponseEntity<Dish> getDishById(HttpSession session, @PathVariable("id") Integer id) {
         System.out.println("Getting Dish By ID");
         Dish dish = dishService.getDishById(id);
 		if (dish == null)
@@ -57,7 +57,7 @@ public class DishController {
     }
 
     @PutMapping(path = "/{id}")
-    public static ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id, @RequestBody Dish dish) {
+    public ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id, @RequestBody Dish dish) {
     		System.out.println("Updating Dish");
     		Dish d = dishService.getDishById(dish.getId());
     		if (d != null && d.getId().equals(id)) {
@@ -68,7 +68,7 @@ public class DishController {
     	}
 
    @DeleteMapping(path = "/{id}")
-   public static ResponseEntity<Void> deleteDish(@PathVariable("id") Integer id) {
+   public ResponseEntity<Void> deleteDish(@PathVariable("id") Integer id) {
       Dish dish = dishService.getDishById(id);
       if(dish != null){
          dishService.deleteDish(dish);
@@ -80,7 +80,7 @@ public class DishController {
    }
 
    @GetMapping(path = "/{category}")
-   public static ResponseEntity<Set<Dish>> getDishByCategory(@PathVariable("category") String categoryName) {
+   public ResponseEntity<Set<Dish>> getDishByCategory(@PathVariable("category") String categoryName) {
       System.out.println("Getting " + categoryName + " dishes...");
       Set<Dish> dishSet = dishService.getDishByCategory(categoryName);
       if(dishSet != null){
@@ -92,7 +92,7 @@ public class DishController {
    }
 
    @GetMapping(path = "/{id}/comment")
-   public static ResponseEntity<Set<Comment>> getAllComment(@PathVariable("id") Integer id) {
+   public ResponseEntity<Set<Comment>> getAllComment(@PathVariable("id") Integer id) {
       System.out.println("Retrieving comments");
       Set<Comment> comments = commentService.getAllCommentsByDish(dishService.getDishById(id));
       if (comments != null){
@@ -121,7 +121,7 @@ public class DishController {
     }
 
     @PutMapping(path = "/{id}/comment/{comment_id}")
-    public static ResponseEntity<Comment> updateComment(HttpSession session, @RequestBody Comment c, @PathVariable("comment_id") Integer comment_id) {
+    public ResponseEntity<Comment> updateComment(HttpSession session, @RequestBody Comment c, @PathVariable("comment_id") Integer comment_id) {
     	System.out.println("Updating comment");
         if (c != null && c.getId() == comment_id){
             commentService.updateComment(c);
@@ -132,7 +132,7 @@ public class DishController {
     }
 
     @PostMapping(path = "/{id}/comment/")
-    public static ResponseEntity<Status> addComment(HttpSession session, @RequestBody Comment c, @PathVariable("id") Integer dish_id) {
+    public ResponseEntity<Status> addComment(HttpSession session, @RequestBody Comment c, @PathVariable("id") Integer dish_id) {
     	System.out.println("Inserting a new Comment");
         if (c != null){
             c.setDish(dishService.getDishById(dish_id));
@@ -144,7 +144,7 @@ public class DishController {
     }
 
     @DeleteMapping(path = "/{id}/comment/{comment_id}")
-    public static ResponseEntity<Status> deleteComment(HttpSession session, @PathVariable("comment_id") Integer comment_id) {
+    public ResponseEntity<Status> deleteComment(HttpSession session, @PathVariable("comment_id") Integer comment_id) {
         Comment comment = commentService.getCommentById(comment_id);
         if (comment != null){
             commentService.deleteComment(comment);
@@ -156,13 +156,23 @@ public class DishController {
 
 
     // need to figure out path
-    @GetMapping(path = "/comment/{comment_id")
-    public static void getRecentlyAddedDishes(HttpSession session) {
-
+    @GetMapping(path = "/recent")
+    public ResponseEntity<Set<Dish>> getRecentlyAddedDishes(HttpSession session) {
+        Set<Dish> recentDishes = dishService.getRecentlyAddedDishes();
+        if (recentDishes != null){
+            return ResponseEntity.ok(recentDishes);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @GetMapping(path = "{id}/hotdish")
-    public static void getHotDishes(HttpSession session) {
-
+    @GetMapping(path = "/hot")
+    public ResponseEntity<Set<Dish>> getHotDishes(HttpSession session) {
+        Set<Dish> hotDishes = dishService.getHotDishes();
+        if (hotDishes != null){
+            return ResponseEntity.ok(hotDishes);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 }
