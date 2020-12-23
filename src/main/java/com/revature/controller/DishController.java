@@ -5,6 +5,7 @@ import com.revature.beans.Dish;
 import com.revature.services.CommentService;
 import com.revature.services.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -96,21 +97,20 @@ public class DishController {
    }
 
    @GetMapping(path = "/{id}/comment")
-    public static void getAllComment(Context ctx) {
+    public ResponseEntity<Set<Comment>> getAllComment(HttpSession session) {
         System.out.println("Retrieving comments");
         Set<Comment> comments = commentService.getAllComments();
         if (comments != null){
-            ctx.status(200);
-            ctx.json(comments);
+            return ResponseEntity.ok(comments);      
         }else{
-            ctx.status(404);
+            return ResponseEntity.notFound().build();
         }
     }
-
+  
     @GetMapping(path = "/{id}/comment/{comment_id}")
-    public static void getCommentByCommentId(Context ctx) {
-        Integer dish_id = Integer.valueOf(ctx.pathParam("id"));
-        Integer comment_id = Integer.valueOf(ctx.pathParam("comment_id"));
+    public ResponseEntity<Comment> getCommentByCommentId(HttpSession session) {
+    	Integer dish_id = (Integer) session.getAttribute("id");
+    	Integer comment_id = (Integer) session.getAttribute("comment_id");
         Set<Comment> commentSet = commentService.getAllComments();
         Comment comment = null;
 
@@ -121,25 +121,24 @@ public class DishController {
         }
 
         if (comment != null){
-            ctx.status(200);
-            ctx.json(comment);
+            return ResponseEntity.ok(comment);
         }else{
             // Cannot find comment with that id
-            ctx.status(404);
+            return ResponseEntity.notFound().build(); 
         }
 
     }
 
     @PutMapping(path = "/{id}/comment/{comment_id}")
-    public static void updateComment(Context ctx) {
+    public static ResponseEntity<Comment> updateComment(HttpSession session, @RequestBody Comment c) {
     	System.out.println("Updating comment");
-        Integer id = Integer.valueOf(ctx.pathParam("id"));
-        Comment comment = ctx.bodyAsClass(Comment.class);
-        if (comment != null){
-            ctx.status(200);
-            commentService.updateComment(comment);;
+        Integer id = (Integer) session.getAttribute("id");
+        Comment comment = commentService.getCommentById(id);
+        if (comment != null){	
+            commentService.updateComment(comment);
+            return ResponseEntity.ok(comment);
         }else{
-            ctx.status(404);
+            return ResponseEntity.notFound().build();
         }
     }
 
