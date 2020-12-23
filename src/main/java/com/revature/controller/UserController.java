@@ -3,6 +3,8 @@ package com.revature.controller;
 import com.revature.beans.User;
 import com.revature.exception.NonUniqueUsernameException;
 import com.revature.services.UserService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,5 +70,17 @@ public class UserController {
         session.invalidate();
         return ResponseEntity.ok().build();
     }
+    
+    @PutMapping(path="/{id}")
+	public ResponseEntity<Void> updateUser(HttpSession session, @PathVariable("id") Integer id, 
+			@RequestBody User user) {
+		User loggedUser = (User) session.getAttribute("user");
+		if (loggedUser != null && loggedUser.getId().equals(id)) {
+			userService.updateUser(user);
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+
 
 }
