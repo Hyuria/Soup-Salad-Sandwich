@@ -151,25 +151,27 @@ public class DishController {
     }
 
     @DeleteMapping(path = "/{id}/comment/{comment_id}")
-    public static void deleteComment(Context ctx) {
-        Integer comment_id = Integer.valueOf(ctx.pathParam("comment_id"));
+    public static ResponseEntity<Comment> deleteComment(HttpSession session) {
+        Integer comment_id = (Integer) session.getAttribute("comment_id");
         Comment comment = commentService.getCommentById(comment_id);
 
         if (comment != null){
             commentService.deleteComment(comment);
-            ctx.status(200);
+            return ResponseEntity.ok(comment);
         }else{
-            ctx.status(404);
+            return ResponseEntity.notFound().build();
         }
     }
 
 
-
-    public static void getRecentlyAddedDishes(Context context) {
+    // need to figure out path
+    @GetMapping(path = "/comment/{comment_id")
+    public static void getRecentlyAddedDishes(HttpSession session) {
 
     }
 
-    public static void getHotDishes(Context context) {
+    @GetMapping(path = "{id}/hotdish")
+    public static void getHotDishes(HttpSession session) {
 
     }
 }
