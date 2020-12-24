@@ -35,7 +35,7 @@ create table user_comments(
 	dish_id int references dish,
 	user_id int references users,
 	date_posted timestamp default current_timestamp,
-	like_count int check (like_count in(-1,0,1)),
+	like_count int,
 	message varchar(200)
 );
 
