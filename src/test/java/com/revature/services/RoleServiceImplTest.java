@@ -15,12 +15,6 @@ class RoleServiceImplTest {
 	RoleDAO roleDAO = new RoleHibernate();
 	Role r = new Role();
 	Set<Role> roleSet = new HashSet<Role>();
-	
-
-    @Test
-    void addRole() {
-    	
-    }
 
     @Test
     void getRoleById() {
@@ -32,14 +26,5 @@ class RoleServiceImplTest {
     void getAll() {
     	roleSet = roleDAO.getAll();
     	assertTrue(roleSet.size()>0);
-    }
-
-    @Test
-    void updateRole() {
-    	
-    }
-
-    @Test
-    void deleteRole() {
     }
 }

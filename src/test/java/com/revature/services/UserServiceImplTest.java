@@ -29,7 +29,7 @@ class UserServiceImplTest {
     	u = userDAO.add(u);
     	assertEquals("jessie", u.getUsername()); 
         assertEquals("jessie", u.getPassword());
-        assertEquals(1, u.getRole());
+        assertEquals(1, u.getRole().getId());
     }
 
     @Test

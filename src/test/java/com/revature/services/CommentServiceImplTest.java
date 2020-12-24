@@ -11,17 +11,18 @@ import com.revature.data.DishHibernate;
 import com.revature.data.DishDAO;
 import com.revature.data.StatusHibernate;
 import com.revature.data.StatusDAO;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.*;
 import com.revature.beans.Dish;
 import com.revature.beans.Comment;
 import com.revature.data.LikeHibernate;
 import com.revature.data.CommentHibernate;
 import com.revature.data.LikeDAO;
 import com.revature.data.CommentDAO;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CommentServiceImplTest {
    private CommentDAO commentDAO = new CommentHibernate();
    private LikeDAO likeDAO = new LikeHibernate();

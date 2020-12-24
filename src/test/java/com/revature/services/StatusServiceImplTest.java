@@ -17,10 +17,6 @@ class StatusServiceImplTest {
 	Set<Status> statusSet = new HashSet<>();
 
     @Test
-    void addStatus() {
-    }
-
-    @Test
     void getStatusById() {
     	s = statusDAO.getById(1);
     	assertEquals("admin pending",s.getName());
@@ -32,19 +28,4 @@ class StatusServiceImplTest {
     	assertTrue(statusSet.size()>0);
     }
 
-    @Test
-    void updateStatus() {
-    	s.setId(5);
-    	s.setName("temp2");
-    	statusDAO.update(s);
-    	assertEquals("temp2", statusDAO.getById(5).getName());
-    }
-
-    @Test
-    void deleteStatus() {
-    	s.setId(5);
-    	s.setName("bob");
-    	statusDAO.delete(s);
-    	assertFalse(statusDAO.getById(5)!= null);
-    }
 }

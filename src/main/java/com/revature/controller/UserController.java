@@ -1,7 +1,9 @@
 package com.revature.controller;
 
+import com.revature.beans.Role;
 import com.revature.beans.User;
 import com.revature.exception.NonUniqueUsernameException;
+import com.revature.services.RoleService;
 import com.revature.services.UserService;
 
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,11 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(path="/users")
 public class UserController {
     private static UserService userService;
+    private static RoleService roleService;
 
-    public UserController(UserService u){
+    public UserController(UserService u, RoleService r){
         userService = u;
+        roleService = r;
     }
 
     @GetMapping
@@ -54,8 +58,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerUser(HttpSession session, @RequestBody User user){
+    public ResponseEntity<Void> registerUser(HttpSession session, @RequestParam("user") String username, @RequestParam("pass") String password){
         try {
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setRole(roleService.getRoleById(1));
             userService.addUser(user);
         }
         catch(NonUniqueUsernameException e){
