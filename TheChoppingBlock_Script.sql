@@ -39,6 +39,10 @@ create table user_comments(
 	message varchar(200)
 );
 
+ALTER TABLE user_comments drop column like_count;
+ALTER TABLE user_comments add column like_count int;
+
+
 create table vote(
 	id serial primary key,
 	dish_id int references dish,
