@@ -29,13 +29,13 @@ class VoteServiceImplTest {
 
     @Test
     void addVote() throws AlreadyVotedException {
-//    	v.setDish(dishDAO.getById(1));
-//    	v.setUser(userDAO.getById(2));
-//    	v.setCategory(categoryDAO.getById(1));
-//    	v = voteDAO.add(v);
-//    	assertEquals(1, v.getDish().getId()); 
-//        assertEquals(2, v.getUser().getId());
-//        assertEquals(1, v.getCategory().getId());  	
+    	v.setDish(dishDAO.getById(1));
+    	v.setUser(userDAO.getById(2));
+    	v.setCategory(categoryDAO.getById(1));
+    	v = voteDAO.add(v);
+    	assertEquals(1, v.getDish().getId()); 
+        assertEquals(2, v.getUser().getId());
+        assertEquals(1, v.getCategory().getId());  	
     }
 
     @Test
@@ -55,14 +55,14 @@ class VoteServiceImplTest {
 
     @Test
     void updateVote() {
-//    	v.setId(2);
-//      	v.setDish(dishDAO.getById(1));
-//    	v.setUser(userDAO.getById(3));
-//    	v.setCategory(categoryDAO.getById(4));
-//    	voteDAO.update(v);
-//    	assertEquals(1, v.getDish().getId()); 
-//    	assertEquals(3, v.getUser().getId());
-//    	assertEquals(4, v.getCategory().getId());  
+    	v.setId(2);
+      	v.setDish(dishDAO.getById(1));
+    	v.setUser(userDAO.getById(3));
+    	v.setCategory(categoryDAO.getById(4));
+    	voteDAO.update(v);
+    	assertEquals(1, v.getDish().getId()); 
+    	assertEquals(3, v.getUser().getId());
+    	assertEquals(4, v.getCategory().getId());  
     }
 
     @Test
