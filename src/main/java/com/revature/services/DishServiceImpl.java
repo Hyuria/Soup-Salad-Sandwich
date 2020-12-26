@@ -50,7 +50,7 @@ public class DishServiceImpl implements DishService {
 		Set<Dish> hotDishes = new HashSet<>();
 		Set<Dish> recentlyAddedDishes = getRecentlyAddedDishes();
 
-		while (hotDishes.size() < 5 || commentSet.isEmpty()){
+		while (hotDishes.size() < 4 || commentSet.isEmpty()){
 			Date lastestTime = null;
 			Dish dishToBeAdded = null;
 			Comment commentToDelete = null;
@@ -75,7 +75,7 @@ public class DishServiceImpl implements DishService {
 	public Set<Dish> getRecentlyAddedDishes() {
 		Set<Dish> dishSet = dishDAO.getAll();
 		Set<Dish> recentDishes = new HashSet<>();
-		while(recentDishes.size() < 5 || dishSet.isEmpty()){
+		while(recentDishes.size() < 4 || dishSet.isEmpty()){
 			Integer highestId = 0;
 			Dish dishToBeAdded = null;
 			for (Dish d : dishSet){
