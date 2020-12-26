@@ -56,7 +56,7 @@ public class DishServiceImpl implements DishService {
 			Comment commentToDelete = null;
 			for (Comment c : commentSet){
 				// If the comment is recent
-				if (lastestTime == null || c..getDate().after(lastestTime)){
+				if (lastestTime == null || c.getDate().after(lastestTime)){
 					// If the dish associated with the comment is not in recentlyAddedDishes or hotDishes
 					if (!hotDishes.contains(c.getDish()) || !recentlyAddedDishes.contains(c.getDish())){
 						dishToBeAdded = c.getDish();

@@ -29,8 +29,10 @@ public class UserController {
         System.out.println("Checking Login");
         User user = (User) session.getAttribute("user");
         if (user == null) {
+            System.out.println("No logged in user.");
             return ResponseEntity.badRequest().build();
         }
+        System.out.println("Logged in user: " + user.getUsername());
         return ResponseEntity.ok(user);
     }
 
