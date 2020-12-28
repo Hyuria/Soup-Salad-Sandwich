@@ -87,6 +87,25 @@ insert into users values(default,'temp','temp',3);
 
 insert into users values(default,'ichirakus',default,default,'www.ramen.com');
 
+insert into dish values(default,'bread',4,3,'breadPicture.com');
+insert into dish values(default,'cheetos',4,3,'chipPicture.com');
+insert into dish values(default,'pizza',4,3,'pizzaPicture.com');
+insert into dish values(default,'trailmix',4,2,'trailPicture.com');
+insert into dish values(default,'fruitsalad',4,2,'fruitsaladPicture.com');
+insert into dish values(default,'steamedveggies',4,2,'steamedveggiesPicture.com');
+insert into dish values(default,'alfredo',4,1,'alfredoPicture.com');
+insert into dish values(default,'macncheese',4,1,'macncheesePicture.com');
+insert into dish values(default,'porrage',4,1,'porragePicture.com');
+insert into dish values(default,'taco',4,3,'tacoPicture.com');
+insert into dish values(default,'redvelvet',4,3,'redvelvetPicture.com');
+insert into dish values(default,'bigmac',4,3,'bigmacPicture.com');
+insert into dish values(default,'ceasar',4,2,'ceasarPicture.com');
+insert into dish values(default,'burritobowl',4,2,'burritobowlPicture.com');
+insert into dish values(default,'nachos',4,2,'nachosPicture.com');
+insert into dish values(default,'broccolicheddar',4,1,'broccolicheddarPicture.com');
+insert into dish values(default,'icecream',4,1,'icecreamPicture.com');
+insert into dish values(default,'ranchdip',4,1,'ranchdipPicture.com');
+
 
 
 select * from users;
