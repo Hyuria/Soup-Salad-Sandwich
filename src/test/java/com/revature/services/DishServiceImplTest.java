@@ -21,6 +21,7 @@ class DishServiceImplTest {
 
     private Dish dish = new Dish();
 
+    /*
     @Test
     @Order(1)
     void addDish() {
@@ -50,7 +51,7 @@ class DishServiceImplTest {
     void getDishByCategory() {
         assertTrue(dishService.getDishByCategory("undecided").size() > 0);
     }
-
+*/
     @Test
     @Order(5)
     void getHotDishes() {
@@ -60,9 +61,9 @@ class DishServiceImplTest {
     @Test
     @Order(6)
     void getRecentlyAddedDishes() {
-        //assertTrue(dishService.getRecentlyAddedDishes().size()>0);
+        assertTrue(dishService.getRecentlyAddedDishes().size()>0);
     }
-
+/*
     @Test
     @Order(7)
     void updateDish() {
@@ -76,5 +77,5 @@ class DishServiceImplTest {
     void deleteDish() {
         dishService.deleteDish(dish);
         assertTrue(dishService.getDishById(dish.getId()) == null);
-    }
+    }*/
 }
