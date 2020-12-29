@@ -78,7 +78,7 @@ public class DishController {
       }
    }
 
-   @GetMapping(path = "/{category}")
+   @GetMapping(path = "/category/{category}")
    public ResponseEntity<Set<Dish>> getDishByCategory(@PathVariable("category") String categoryName) {
       System.out.println("Getting " + categoryName + " dishes...");
       Set<Dish> dishSet = dishService.getDishByCategory(categoryName);
