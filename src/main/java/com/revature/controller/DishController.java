@@ -67,15 +67,17 @@ public class DishController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id, @RequestBody Dish dish) {
-    		System.out.println("Updating Dish");
-    		Dish d = dishService.getDishById(dish.getId());
-    		if (d != null && d.getId().equals(id)) {
-    			dishService.updateDish(dish);
-    			return ResponseEntity.ok().build();
-    		}
-    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id, @RequestBody Dish newDish) {
+    	System.out.println("[Dish Controller] Updating Dish: " + newDish);
+    	Dish oldDish = dishService.getDishById(id);
+    	if (oldDish != null) {
+    		dishService.updateDish(newDish);
+    		return ResponseEntity.ok().build();
     	}
+    	else{
+			return ResponseEntity.notFound().build();
+    	}
+	}
 
    @DeleteMapping(path = "/{id}")
    public ResponseEntity<Void> deleteDish(@PathVariable("id") Integer id) {
