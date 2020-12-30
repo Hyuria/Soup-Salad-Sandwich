@@ -43,12 +43,8 @@ public class DishController {
     @PostMapping
     public ResponseEntity<Void> addDish(HttpSession session, @RequestBody Dish d) {
         System.out.println("Adding new dish");
-    	try {
+    	
 			Dish dish= dishService.addDish(d);
-		} catch (NonUniqueDishException e) {
-			System.out.println("Dish already taken");
-			return ResponseEntity.notFound().build();
-		}
     	 
         return ResponseEntity.ok().build();
     }

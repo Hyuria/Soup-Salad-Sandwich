@@ -18,7 +18,7 @@ public class DishHibernate implements DishDAO {
 	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
     @Override
-    public Dish add(Dish d) throws NonUniqueDishException {
+    public Dish add(Dish d) {
         Session s = hu.getSession();
         Transaction tx = null;
         try {
@@ -27,7 +27,7 @@ public class DishHibernate implements DishDAO {
         		tx.commit();
         }catch (Exception e) {
         	 if (e.getMessage().contains("violates unique constraint")){
-                 throw new NonUniqueDishException();
+                 
              }
         		if (tx != null)
         				tx.rollback();

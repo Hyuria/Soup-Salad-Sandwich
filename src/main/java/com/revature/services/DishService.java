@@ -7,7 +7,7 @@ import com.revature.exception.NonUniqueDishException;
 
 public interface DishService {
 	 // create
-	   public Dish addDish(Dish d) throws NonUniqueDishException;
+	   public Dish addDish(Dish d);
 
 	   // read
 	   public Dish getDishById(Integer id);

@@ -26,7 +26,7 @@ public class DishServiceImpl implements DishService {
 	}
 
     @Override
-	public Dish addDish(Dish d) throws NonUniqueDishException {
+	public Dish addDish(Dish d){
 		return dishDAO.add(d);
 	}
 
