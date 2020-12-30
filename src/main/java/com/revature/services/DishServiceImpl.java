@@ -10,6 +10,8 @@ import org.springframework.stereotype.*;
 
 import com.revature.beans.Dish;
 import com.revature.data.DishDAO;
+import com.revature.exception.NonUniqueDishException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
@@ -24,7 +26,7 @@ public class DishServiceImpl implements DishService {
 	}
 
     @Override
-	public Dish addDish(Dish d) {
+	public Dish addDish(Dish d) throws NonUniqueDishException {
 		return dishDAO.add(d);
 	}
 
@@ -41,6 +43,18 @@ public class DishServiceImpl implements DishService {
 	@Override
 	public Set<Dish> getDishByCategory(String categoryName){
 		return dishDAO.getByCategory(categoryName);
+	}
+
+	@Override
+	public Set<Dish> getPendingDishes(){
+		Set<Dish> pendingDishes = new HashSet<>();
+		Set<Dish> dishes = getAll();
+		for(Dish dish : dishes){
+			if(dish.getStatus().getName().equals("admin pending")){
+				pendingDishes.add(dish);
+			}
+		}
+		return pendingDishes;
 	}
 
 	@Override
