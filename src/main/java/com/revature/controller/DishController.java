@@ -72,7 +72,7 @@ public class DishController {
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id, @RequestBody Dish newDish) {
-    	System.out.println("[Dish Controller] Updating Dish: " + newDish);
+    	System.out.println("[Dish Controller] Updating Dish: " + newDish.getName());
     	Dish oldDish = dishService.getDishById(id);
     	if (oldDish != null) {
     		dishService.updateDish(newDish);
