@@ -85,7 +85,7 @@ public class UserController {
     @PutMapping(path="/{id}")
 	public ResponseEntity<Void> updateUser(HttpSession session, @PathVariable("id") Integer id, 
 			@RequestBody User user) {
-		User loggedUser = (User) session.getAttribute("user");
+		User loggedUser = userService.getUserById(id);
 		if (loggedUser != null && loggedUser.getId().equals(id)) {
 			userService.updateUser(user);
 			return ResponseEntity.ok().build();
