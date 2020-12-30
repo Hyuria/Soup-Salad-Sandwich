@@ -16,6 +16,7 @@ public interface VoteService {
     // Read
     public Vote getVoteById(Integer id);
     public Set<Vote> getAll();
+    public Set<Vote> getVoteByDishId(Integer id);
 
     // Update
     public void updateVote(Vote v);

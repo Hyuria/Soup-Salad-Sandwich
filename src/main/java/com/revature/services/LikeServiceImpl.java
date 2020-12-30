@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,18 @@ public class LikeServiceImpl implements LikeService {
 	@Override
 	public Set<Like> getAll() {
 		return likeDAO.getAll();
+	}
+
+	@Override
+	public Set<Like> getLikeByDishId(Integer id) {
+		Set<Like> allLikes = getAll();
+		Set<Like> retSet = new HashSet<>();
+		for(Like l : allLikes){
+			if (l.getComment().getDish().getId() == id){
+				retSet.add(l);
+			}
+		}
+		return retSet;
 	}
 
 	@Override
