@@ -46,6 +46,18 @@ public class DishServiceImpl implements DishService {
 	}
 
 	@Override
+	public Set<Dish> getPendingDishes(){
+		Set<Dish> pendingDishes = new HashSet<>();
+		Set<Dish> dishes = getAll();
+		for(Dish dish : dishes){
+			if(dish.getStatus().getName().equals("admin pending")){
+				pendingDishes.add(dish);
+			}
+		}
+		return pendingDishes;
+	}
+
+	@Override
 	public Set<Dish> getHotDishes() {
 		// Get 5 dishes with the most recent activity that are not in recent
 		Set<Comment> commentSet = commentDAO.getAll();

@@ -14,6 +14,7 @@ public interface DishService {
 	   public Set<Dish> getAll();
 	   public Set<Dish> getDishByCategory(String categoryName);
 	   public Set<Dish> getHotDishes();
+	   public Set<Dish> getPendingDishes();
 	   public Set<Dish> getRecentlyAddedDishes();
 
 	   // update
