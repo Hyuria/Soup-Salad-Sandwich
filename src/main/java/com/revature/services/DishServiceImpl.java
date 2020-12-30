@@ -50,7 +50,7 @@ public class DishServiceImpl implements DishService {
 		Set<Dish> pendingDishes = new HashSet<>();
 		Set<Dish> dishes = getAll();
 		for(Dish dish : dishes){
-			if(dish.getStatus().getName().equals("admin pending")){
+			if(dish.getStatus().getId() == 1){
 				pendingDishes.add(dish);
 			}
 		}
