@@ -4,6 +4,8 @@ import com.revature.beans.Category;
 import com.revature.beans.Dish;
 import com.revature.beans.User;
 import com.revature.beans.Vote;
+import com.revature.data.CategoryDAO;
+import com.revature.data.DishDAO;
 import com.revature.data.VoteDAO;
 import com.revature.data.VoteHibernate;
 import com.revature.exception.AlreadyVotedException;
@@ -16,10 +18,14 @@ import java.util.Set;
 @Service
 public class VoteServiceImpl implements VoteService{
     private VoteDAO voteDAO;
+    private CategoryDAO categoryDAO;
+    private DishDAO dishDAO;
 
     @Autowired
-    public VoteServiceImpl(VoteDAO v){
+    public VoteServiceImpl(VoteDAO v, CategoryDAO c, DishDAO d){
         voteDAO = v;
+        categoryDAO = c;
+        dishDAO = d;
     }
 
     @Override
@@ -41,8 +47,8 @@ public class VoteServiceImpl implements VoteService{
     public Set<Vote> getVoteByDishId(Integer id) {
         Set<Vote> allVote = getAll();
         Set<Vote> retSet = new HashSet<>();
-        for(Vote v : retSet){
-            if (v.getUser().getId() == id){
+        for(Vote v : allVote){
+            if (v.getDish().getId() == id){
                 retSet.add(v);
             }
         }
@@ -77,10 +83,45 @@ public class VoteServiceImpl implements VoteService{
             if (existingVote.getCategory().getId() != c.getId()){
                 existingVote.setCategory(c);
                 voteDAO.update(existingVote);
+            }else{
+                throw new AlreadyVotedException();
             }
             // If the vote is by the same user, for the same dish and category, nothing changes.
         }
 
+        // Reclassify Dish Category
+
+        Integer soupVoteCount = 0;
+        Integer saladVoteCount = 0;
+        Integer sandwichVoteCount = 0;
+
+        voteSet = voteDAO.getAll();
+
+        for (Vote v : voteSet){
+            if (v.getDish().getId() == d.getId()){
+                if (v.getCategory().getId() == 1){
+                    soupVoteCount ++;
+                }else if (v.getCategory().getId() == 2){
+                    saladVoteCount ++;
+                }else if (v.getCategory().getId() == 3){
+                    sandwichVoteCount ++;
+                }
+            }
+        }
+
+        if (soupVoteCount > saladVoteCount && soupVoteCount > sandwichVoteCount){
+            d.setCategory(categoryDAO.getById(1));
+        }
+        else if (saladVoteCount > soupVoteCount && saladVoteCount > sandwichVoteCount){
+            d.setCategory(categoryDAO.getById(2));
+        }
+        else if (sandwichVoteCount > soupVoteCount && sandwichVoteCount > saladVoteCount){
+            d.setCategory(categoryDAO.getById(3));
+        }
+        else{
+            d.setCategory(categoryDAO.getById(4));
+        }
+        dishDAO.update(d);
     }
 
     @Override

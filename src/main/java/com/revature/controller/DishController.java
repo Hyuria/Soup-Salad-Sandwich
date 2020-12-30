@@ -6,6 +6,8 @@ import com.revature.services.CommentService;
 import com.revature.services.DishService;
 import com.revature.services.LikeService;
 import com.revature.services.VoteService;
+import com.revature.exception.AlreadyVotedException;
+import com.revature.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +24,18 @@ public class DishController {
     private static CommentService commentService;
     private static VoteService voteService;
     private static LikeService likeService;
+    private static UserService userService;
+    private static CategoryService categoryService;
 
 
     @Autowired
-    public DishController(DishService d, CommentService c){
+    public DishController(DishService d, CommentService c, VoteService v, LikeService l, UserService u, CategoryService cat){
         dishService = d;
         commentService = c;
+        voteService = v;
+        likeService = l;
+        userService = u;
+        categoryService = cat;
     }
 
 
@@ -63,15 +71,17 @@ public class DishController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id, @RequestBody Dish dish) {
-    		System.out.println("Updating Dish");
-    		Dish d = dishService.getDishById(dish.getId());
-    		if (d != null && d.getId().equals(id)) {
-    			dishService.updateDish(dish);
-    			return ResponseEntity.ok().build();
-    		}
-    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<Void> updateDish(HttpSession session, @PathVariable("id") Integer id, @RequestBody Dish newDish) {
+    	System.out.println("[Dish Controller] Updating Dish: " + newDish);
+    	Dish oldDish = dishService.getDishById(id);
+    	if (oldDish != null) {
+    		dishService.updateDish(newDish);
+    		return ResponseEntity.ok().build();
     	}
+    	else{
+			return ResponseEntity.notFound().build();
+    	}
+	}
 
    @DeleteMapping(path = "/{id}")
    public ResponseEntity<Void> deleteDish(@PathVariable("id") Integer id) {
@@ -122,6 +132,18 @@ public class DishController {
         }
     }
 
+    @PostMapping("/{id}/vote/{category_id}/user/{user_id}")
+    public ResponseEntity<Status> addVote(@PathVariable("id") Integer dish_id, @PathVariable("category_id") Integer category_id, @PathVariable("user_id") Integer user_id){
+        System.out.println("User :" + user_id + " voted category: " + category_id + " for dish: " + dish_id);
+        try{
+            voteService.categoryVote(userService.getUserById(user_id), dishService.getDishById(dish_id), categoryService.getCategoryById(category_id));
+        }catch (AlreadyVotedException e){
+            System.out.println("User already voted");
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
 
 
    @GetMapping(path = "/{id}/comment")
@@ -151,7 +173,6 @@ public class DishController {
             // Cannot find comment with that id
             return ResponseEntity.notFound().build(); 
         }
-
     }
 
     @PutMapping(path = "/{id}/comment/{comment_id}")
@@ -165,15 +186,18 @@ public class DishController {
         }
     }
 
-    @PostMapping(path = "/{id}/comment/")
-    public ResponseEntity<Status> addComment(HttpSession session, @RequestBody Comment c, @PathVariable("id") Integer dish_id) {
-    	System.out.println("Inserting a new Comment");
-        if (c != null){
-            c.setDish(dishService.getDishById(dish_id));
-            commentService.addComment(c);
+    @PostMapping(path = "/{id}/comment/{user_id}")
+    public ResponseEntity<Status> addComment(HttpSession session, @RequestBody String message, @PathVariable("id") Integer dish_id, @PathVariable("user_id") Integer user_id) {
+    	System.out.println("Inserting a new Comment for Dish: " + dish_id + " by User: " + user_id + " with content: " + message);
+    	Comment c = new Comment();
+    	c.setDish(dishService.getDishById(dish_id));
+    	c.setUser(userService.getUserById(user_id));
+    	c.setMessage(message);
+    	Integer retValue = commentService.addComment(c);
+        if (retValue != null){
             return ResponseEntity.ok().build();
         }else{
-        	return ResponseEntity.notFound().build();
+        	return ResponseEntity.badRequest().build();
         }
     }
 
@@ -188,8 +212,30 @@ public class DishController {
         }
     }
 
+    @PostMapping(path = "/comment/{comment_id}/like/{user_id}")
+    public ResponseEntity<Status> likeComment(HttpSession session, @PathVariable("comment_id") Integer comment_id, @PathVariable("user_id") Integer user_id) {
+        System.out.println("User : " + user_id + " liking comment: " + comment_id);
+        if (comment_id != null && user_id != null){
+            commentService.likeComment(commentService.getCommentById(comment_id), userService.getUserById(user_id));
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
-    // need to figure out path
+    @DeleteMapping (path = "/comment/{comment_id}/like/{user_id}")
+    public ResponseEntity<Status> dislikeComment(HttpSession session, @PathVariable("comment_id") Integer comment_id, @PathVariable("user_id") Integer user_id) {
+        System.out.println("Disliking a Comment");
+        if (comment_id != null && user_id != null){
+            commentService.dislikeComment(commentService.getCommentById(comment_id), userService.getUserById(user_id));
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
+
     @GetMapping(path = "/recent")
     public ResponseEntity<Set<Dish>> getRecentlyAddedDishes(HttpSession session) {
         Set<Dish> recentDishes = dishService.getRecentlyAddedDishes();
