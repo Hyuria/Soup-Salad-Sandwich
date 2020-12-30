@@ -1,6 +1,7 @@
 package com.revature.controller;
 
 import com.revature.beans.*;
+import com.revature.exception.NonUniqueDishException;
 import com.revature.services.CommentService;
 import com.revature.services.DishService;
 import com.revature.services.LikeService;
@@ -42,7 +43,13 @@ public class DishController {
     @PostMapping
     public ResponseEntity<Void> addDish(HttpSession session, @RequestBody Dish d) {
         System.out.println("Adding new dish");
-    	dishService.addDish(d);
+    	try {
+			Dish dish= dishService.addDish(d);
+		} catch (NonUniqueDishException e) {
+			System.out.println("Dish already taken");
+			return ResponseEntity.notFound().build();
+		}
+    	 
         return ResponseEntity.ok().build();
     }
 

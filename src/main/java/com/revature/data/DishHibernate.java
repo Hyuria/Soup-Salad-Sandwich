@@ -4,6 +4,8 @@ import org.hibernate.*;
 import org.hibernate.query.Query;
 
 import com.revature.beans.Dish;
+import com.revature.exception.NonUniqueDishException;
+import com.revature.exception.NonUniqueUsernameException;
 import com.revature.utils.HibernateUtil;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +18,7 @@ public class DishHibernate implements DishDAO {
 	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
     @Override
-    public Dish add(Dish d) {
+    public Dish add(Dish d) throws NonUniqueDishException {
         Session s = hu.getSession();
         Transaction tx = null;
         try {
@@ -24,6 +26,9 @@ public class DishHibernate implements DishDAO {
         		s.save(d);
         		tx.commit();
         }catch (Exception e) {
+        	 if (e.getMessage().contains("violates unique constraint")){
+                 throw new NonUniqueDishException();
+             }
         		if (tx != null)
         				tx.rollback();
         }finally {
