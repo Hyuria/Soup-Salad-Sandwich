@@ -55,14 +55,14 @@ class DishServiceImplTest {
     @Test
     @Order(5)
     void getHotDishes() {
-        //assertTrue(dishService.getHotDishes() != null);
+        assertTrue(dishService.getHotDishes() != null);
     }
 
-    @Test
-    @Order(6)
-    void getRecentlyAddedDishes() {
-        assertTrue(dishService.getRecentlyAddedDishes().size()>0);
-    }
+//    @Test
+//    @Order(6)
+//    void getRecentlyAddedDishes() {
+//        assertTrue(dishService.getRecentlyAddedDishes().size()>0);
+//    }
 /*
     @Test
     @Order(7)
