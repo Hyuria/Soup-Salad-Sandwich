@@ -59,6 +59,7 @@ public class DishServiceImpl implements DishService {
 
 	@Override
 	public Set<Dish> getHotDishes() {
+		//System.out.println("Getting Hot Dishes");
 		// Get 5 dishes with the most recent activity that are not in recent
 		Set<Comment> commentSet = commentDAO.getAll();
 		Set<Dish> hotDishes = new HashSet<>();
@@ -69,13 +70,19 @@ public class DishServiceImpl implements DishService {
 			Dish dishToBeAdded = null;
 			Comment commentToDelete = null;
 			for (Comment c : commentSet){
+				//System.out.println("Analyzing Comment: " + c.getId());
 				// If the comment is recent
 				if (lastestTime == null || c.getDate().after(lastestTime)){
+					//System.out.println("Comment: " + c.getId() + " is recent.");
 					// If the dish associated with the comment is not in recentlyAddedDishes or hotDishes
-					if (!hotDishes.contains(c.getDish()) || !recentlyAddedDishes.contains(c.getDish())){
-						dishToBeAdded = c.getDish();
-						lastestTime = c.getDate();
-						commentToDelete = c;
+					if ((!hotDishes.contains(c.getDish()) || !recentlyAddedDishes.contains(c.getDish()))){
+						//System.out.println("Comment: " + c.getId() + " is not in recent or hotDishes yet.");
+						if (c.getDish().getStatus().getId() != 1 && c.getDish().getStatus().getId() != 4) {
+							//System.out.println("Comment: " + c.getId() + " is approved.");
+							dishToBeAdded = c.getDish();
+							lastestTime = c.getDate();
+							commentToDelete = c;
+						}
 					}
 				}
 			}
@@ -98,7 +105,7 @@ public class DishServiceImpl implements DishService {
 			Integer highestId = 0;
 			Dish dishToBeAdded = null;
 			for (Dish d : dishSet){
-				if (d.getId() > highestId){
+				if ((d.getId() > highestId) && (d.getStatus().getId() != 1)){
 					highestId = d.getId();
 					dishToBeAdded = d;
 				}
