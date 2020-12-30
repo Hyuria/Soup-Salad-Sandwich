@@ -206,4 +206,14 @@ public class DishController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping(path = "/pending")
+    public ResponseEntity<Set<Dish>> getPendingDishes(HttpSession session) {
+        Set<Dish> pendingDishes = dishService.getPendingDishes();
+        if (pendingDishes != null){
+            return ResponseEntity.ok(pendingDishes);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
