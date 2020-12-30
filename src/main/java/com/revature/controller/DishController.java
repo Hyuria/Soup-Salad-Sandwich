@@ -1,10 +1,10 @@
 package com.revature.controller;
 
-import com.revature.beans.Comment;
-import com.revature.beans.Dish;
-import com.revature.beans.Status;
+import com.revature.beans.*;
 import com.revature.services.CommentService;
 import com.revature.services.DishService;
+import com.revature.services.LikeService;
+import com.revature.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +19,9 @@ import java.util.Set;
 public class DishController {
     private static DishService dishService;
     private static CommentService commentService;
+    private static VoteService voteService;
+    private static LikeService likeService;
+
 
     @Autowired
     public DishController(DishService d, CommentService c){
@@ -51,6 +54,7 @@ public class DishController {
         Dish dish = dishService.getDishById(id);
 		if (dish == null)
 			return ResponseEntity.badRequest().build();
+        System.out.println(dish);
 		return ResponseEntity.ok(dish);
 
     }
@@ -90,10 +94,38 @@ public class DishController {
       }
    }
 
+    @GetMapping(path = "/{id}/like")
+    public ResponseEntity<Set<Like>> getLikeByDish(@PathVariable("id") Integer id) {
+        System.out.println("Retrieving Likes for Dish#: " + id);
+        Set<Like> likeSet = likeService.getLikeByDishId(id);
+        System.out.println("Retrieved Likes: " + likeSet);
+        if (likeSet != null){
+            return ResponseEntity.ok(likeSet);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    @GetMapping(path = "/{id}/vote")
+    public ResponseEntity<Set<Vote>> getAllVote(@PathVariable("id") Integer id) {
+        System.out.println("Retrieving Vote for Dish#:" + id);
+        Set<Vote> voteSet = voteService.getVoteByDishId(id);
+        System.out.println("Retrieved Votes: " + voteSet);
+        if (voteSet != null){
+            return ResponseEntity.ok(voteSet);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
    @GetMapping(path = "/{id}/comment")
    public ResponseEntity<Set<Comment>> getAllComment(@PathVariable("id") Integer id) {
-      System.out.println("Retrieving comments");
+      System.out.println("Retrieving comments By Dish#: " + id);
       Set<Comment> comments = commentService.getAllCommentsByDish(dishService.getDishById(id));
+      System.out.println("Retrieved Comments: " + comments);
       if (comments != null){
          return ResponseEntity.ok(comments);
       }else{

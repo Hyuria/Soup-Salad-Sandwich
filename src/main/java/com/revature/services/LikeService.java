@@ -11,6 +11,7 @@ public interface LikeService {
 	// read
 	public Like getLikeById(Integer id);
 	public Set<Like> getAll();
+	public Set<Like> getLikeByDishId(Integer id);
 
 	// update
 	public void updateLike(Like l);

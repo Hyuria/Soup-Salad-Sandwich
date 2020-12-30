@@ -66,12 +66,14 @@ public class DishServiceImpl implements DishService {
 				}
 			}
 			hotDishes.add(dishToBeAdded);
+			System.out.println("Hot Dish adding: " + dishToBeAdded.getId());
 			commentSet.remove(commentToDelete);
 			if (commentSet.isEmpty()){
 				break;
 			}
 		}
-		return null;
+		System.out.println("Returning Hot Dishes: " + hotDishes);
+		return hotDishes;
 	}
 
 	@Override
@@ -83,15 +85,11 @@ public class DishServiceImpl implements DishService {
 			Dish dishToBeAdded = null;
 			for (Dish d : dishSet){
 				if (d.getId() > highestId){
-					System.out.println(d.getId()  + "is now the highest ID");
 					highestId = d.getId();
 					dishToBeAdded = d;
 				}
 			}
-			System.out.println("Highest ID: " + highestId);
-			System.out.println("Dish to be added: " + dishToBeAdded.getId());
 			recentDishes.add(dishToBeAdded);
-			System.out.println("Size of recentDishes: " + recentDishes.size());
 			dishSet.remove(dishToBeAdded);
 			if (dishSet.isEmpty()){
 				break;

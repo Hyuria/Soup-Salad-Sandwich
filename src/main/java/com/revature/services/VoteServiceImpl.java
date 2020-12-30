@@ -10,6 +10,7 @@ import com.revature.exception.AlreadyVotedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -34,6 +35,18 @@ public class VoteServiceImpl implements VoteService{
     @Override
     public Set<Vote> getAll() {
         return voteDAO.getAll();
+    }
+
+    @Override
+    public Set<Vote> getVoteByDishId(Integer id) {
+        Set<Vote> allVote = getAll();
+        Set<Vote> retSet = new HashSet<>();
+        for(Vote v : retSet){
+            if (v.getUser().getId() == id){
+                retSet.add(v);
+            }
+        }
+        return retSet;
     }
 
     @Override
