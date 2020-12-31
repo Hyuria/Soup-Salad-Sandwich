@@ -126,7 +126,9 @@ public class UserController {
 				imageService.saveImage(imageToSave);
 				result.put("success", true);
 				result.put("data", imageToSave.getId());
-			} catch (Exception e) {				result.put("success", false);
+				result.put("image", Base64.encode(imageToSave.getPicByte()));
+			} catch (Exception e) {				
+				result.put("success", false);
 				result.put("errorMsg", e.getLocalizedMessage());
 			}
   			return ResponseEntity.ok(result);
@@ -138,9 +140,12 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> downloadImage(@PathVariable("id") Integer userId, HttpServletResponse response) throws IOException {
     	Image image = imageService.findByUserId(userId);
-    	Map<String, Object> result = new HashMap();
-    	result.put("image", Base64.encode(image.getPicByte()));
-    	return ResponseEntity.ok(result);
+    	if(image != null) {
+    		Map<String, Object> result = new HashMap();
+        	result.put("image", Base64.encode(image.getPicByte()));
+        	return ResponseEntity.ok(result);
+    	}
+    	return ResponseEntity.ok().build();
     }
 
 }
