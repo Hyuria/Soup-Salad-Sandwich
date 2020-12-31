@@ -59,8 +59,8 @@ public class DishServiceImpl implements DishService {
 
 	@Override
 	public Set<Dish> getHotDishes() {
-		//System.out.println("Getting Hot Dishes");
-		// Get 5 dishes with the most recent activity that are not in recent
+		System.out.println("Getting Hot Dishes");
+		//Get 5 dishes with the most recent activity that are not in recent
 		Set<Comment> commentSet = commentDAO.getAll();
 		Set<Dish> hotDishes = new HashSet<>();
 		Set<Dish> recentlyAddedDishes = getRecentlyAddedDishes();
@@ -70,26 +70,24 @@ public class DishServiceImpl implements DishService {
 			Dish dishToBeAdded = null;
 			Comment commentToDelete = null;
 			for (Comment c : commentSet){
-				//System.out.println("Analyzing Comment: " + c.getId());
+				System.out.println("Analyzing Comment: " + c.getId() + " in Dish " + c.getDish().getId());
 				// If the comment is recent
 				if (lastestTime == null || c.getDate().after(lastestTime)){
-					//System.out.println("Comment: " + c.getId() + " is recent.");
+					System.out.println("Comment: " + c.getId() + " is recent.");
 					// If the dish associated with the comment is not in recentlyAddedDishes or hotDishes
 					if ((!hotDishes.contains(c.getDish()) || !recentlyAddedDishes.contains(c.getDish()))){
-						//System.out.println("Comment: " + c.getId() + " is not in recent or hotDishes yet.");
-						if (c.getDish().getStatus().getId() != 1 && c.getDish().getStatus().getId() != 4) {
-							//System.out.println("Comment: " + c.getId() + " is approved.");
-							dishToBeAdded = c.getDish();
-							lastestTime = c.getDate();
-							commentToDelete = c;
-						}
+						System.out.println("Dish: " + c.getDish().getId() + " is not in recent or hotDishes yet.");
+						dishToBeAdded = c.getDish();
+						lastestTime = c.getDate();
+						commentToDelete = c;
 					}
 				}
 			}
 			hotDishes.add(dishToBeAdded);
-			System.out.println("Hot Dish adding: " + dishToBeAdded.getId());
+			System.out.println("Hot Dish adding: " + dishToBeAdded.getId() + " with last activity at: " + lastestTime);
 			commentSet.remove(commentToDelete);
-			if (commentSet.isEmpty()){
+			System.out.println("Deleted Comment: " + commentToDelete.getId() + " . Now commentSet size is: " + commentSet.size());
+			if (commentSet.isEmpty() || dishToBeAdded == null){
 				break;
 			}
 		}

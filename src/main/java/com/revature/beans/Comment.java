@@ -28,7 +28,7 @@ public class Comment {
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user;
-    @Column(name = "date_posted")
+    @Column(name = "date_posted", insertable=false)
     private Date date;
     @Column(name = "like_count")
     private Integer like;
@@ -39,7 +39,6 @@ public class Comment {
         id = 0;
         dish = null;
         user = null;
-        date = null;
         like= 0;
         message = "";
     }

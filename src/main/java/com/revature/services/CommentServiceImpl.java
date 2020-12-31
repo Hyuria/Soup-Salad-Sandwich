@@ -104,6 +104,8 @@ public class CommentServiceImpl implements CommentService{
          like.setComment(c);
          like.setLike(0);
          likeDAO.add(like);
+         c.setLike(c.getLike() - 1);
+         updateComment(c);
       }else{
          if (existingLike.getLike() == 1) {
             // If there exist a like, that would be deleted
