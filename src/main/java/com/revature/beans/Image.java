@@ -5,8 +5,7 @@ import java.util.Arrays;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "image_table")
-
+@Table(name = "image")
 public class Image {
 
 	public Image() {
@@ -29,6 +28,9 @@ public class Image {
 
 	@Column(name = "type")
 	private String type;
+	
+	@Column(name = "user_id")
+	private Integer userId;
 	
 	@Column(name = "picByte", length = 1000)
 	private byte[] picByte;
@@ -108,6 +110,14 @@ public class Image {
 	@Override
 	public String toString() {
 		return "Image [id=" + id + ", name=" + name + ", type=" + type + ", picByte=" + Arrays.toString(picByte) + "]";
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 	

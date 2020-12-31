@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class RoleHibernate implements RoleDAO{
     }
 
     @Override
-    public Role getById(Integer id) {
+    public Role getById(Serializable id) {
         Session s = hu.getSession();
         Role r = s.get(Role.class, id);
         s.close();

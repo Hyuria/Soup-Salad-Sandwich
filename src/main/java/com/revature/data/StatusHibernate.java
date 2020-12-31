@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +37,7 @@ public class StatusHibernate implements StatusDAO{
     }
 
     @Override
-    public Status getById(Integer id) {
+    public Status getById(Serializable id) {
         Session s = hu.getSession();
         Status status = s.get(Status.class, id);
         s.close();

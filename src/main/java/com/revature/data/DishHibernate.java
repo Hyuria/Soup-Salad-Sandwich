@@ -9,6 +9,7 @@ import com.revature.exception.NonUniqueUsernameException;
 import com.revature.utils.HibernateUtil;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +39,7 @@ public class DishHibernate implements DishDAO {
     }
 
     @Override
-    public Dish getById(Integer id) {
+    public Dish getById(Serializable id) {
         Session s = hu.getSession();
         Dish d = s.get(Dish.class, id);
         s.close();

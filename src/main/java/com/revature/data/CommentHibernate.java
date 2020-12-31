@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class CommentHibernate implements CommentDAO{
     }
 
     @Override
-    public Comment getById(Integer id) {
+    public Comment getById(Serializable id) {
         Session s = hu.getSession();
         Comment c = s.get(Comment.class, id);
         s.close();

@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class VoteHibernate implements VoteDAO{
     }
 
     @Override
-    public Vote getById(Integer id) {
+    public Vote getById(Serializable id) {
         Session s = hu.getSession();
         Vote vote = s.get(Vote.class, id);
         s.close();

@@ -12,6 +12,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,8 +42,9 @@ public class UserHibernate implements UserDAO {
         return u;
     }
 
+   
     @Override
-    public User getById(Integer id) {
+    public User getById(Serializable id) {
         Session s = hu.getSession();
         User user = s.get(User.class, id);
         s.close();

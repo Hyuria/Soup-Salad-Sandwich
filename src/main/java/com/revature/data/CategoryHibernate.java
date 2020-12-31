@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +37,7 @@ public class CategoryHibernate implements CategoryDAO{
     }
 
     @Override
-    public Category getById(Integer id) {
+    public Category getById(Serializable id) {
         Session s = hu.getSession();
         Category c = s.get(Category.class, id);
         s.close();

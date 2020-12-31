@@ -24,6 +24,7 @@
         <mapping class="com.revature.beans.Status"></mapping>
         <mapping class="com.revature.beans.User"></mapping>
         <mapping class="com.revature.beans.Vote"></mapping>
+		<mapping class="com.revature.beans.Image"></mapping>
 
     </session-factory>
 </hibernate-configuration>
