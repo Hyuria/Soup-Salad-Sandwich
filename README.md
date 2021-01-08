@@ -41,9 +41,10 @@ The app has a 'The Menu' section of exisiting dishes that was introduced again.
 ## Getting Started
    
 >$ git clone https://github.com/Hyuria/Soup-Salad-Sandwich
+
 >$ git clone https://github.com/Hyuria/Soup-Salad-Sandwich-Frontend
 
-Backend applications run on an Apache Tomcat Server. You would need to create a PostgreSQL server on AWS RDS or locally, and change the Soup-Salad-Sandwich/src/main/resources/hibernate.cfg.xml file accordingly. 
+Backend applications run on an Apache Tomcat Server. You would need to create a PostgreSQL server on AWS RDS or locally, and change the Soup-Salad-Sandwich/src/main/resources/hibernate.cfg.xml file accordingly. To run the frontend, you will need to install Angular 4, alongside npm.
 
 - Frontend Repository: https://github.com/Hyuria/Soup-Salad-Sandwich-Frontend
 
@@ -68,6 +69,8 @@ Backend applications run on an Apache Tomcat Server. You would need to create a 
 ## Usage
 
 Start the frontend server using the command:
+> npm install
+
 > ng serve
 
 Start the backend in your IDE of choice, IntelliJ and Eclipse were used during development. Make sure to start it but using Apache Tomcat.
