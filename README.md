@@ -16,15 +16,15 @@ The app has a 'The Menu' section of exisiting dishes that was introduced again.
 
 ## Technologies Used
 
--Postgresql
--SpringBoot
--Hibernate
--HTML
--CSS
--Bootstrap
--JavaScript/TypeScript
--Angular
--Apache tomcat
+* Postgresql
+* SpringBoot
+* Hibernate
+* HTML
+* CSS
+* Bootstrap
+* JavaScript/TypeScript
+* Angular
+* Apache tomcat
 
 ## Features
 
