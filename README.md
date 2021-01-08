@@ -31,7 +31,16 @@ Product Backlog:
 	- The Menu
 		- Three catagory to orgaize existing dishes
 
-
+Technologies Used:
+-Postgresql
+-SpringBoot
+-Hibernate
+-HTML
+-CSS
+-Bootstrap
+-JavaScript/TypeScript
+-Angular
+-Apache tomcat.
 
 Database Structure
 

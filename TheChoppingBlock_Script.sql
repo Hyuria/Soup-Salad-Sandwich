@@ -106,8 +106,11 @@ insert into dish values(default,'broccolicheddar',4,1,'broccolicheddarPicture.co
 insert into dish values(default,'icecream',4,1,'icecreamPicture.com');
 insert into dish values(default,'ranchdip',4,1,'ranchdipPicture.com');
 
+update dish set photo_url = 'https://natashaskitchen.com/wp-content/uploads/2016/11/Creamy-Mashed-Potatoes-4.jpg'
+where dish.id =64;
 
+update dish set category_id =4 where id =52;
 
-select * from users;
+select * from dish;
 
 drop table category, status, roles, users, dish, user_comments, vote, likes;
