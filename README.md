@@ -1,5 +1,5 @@
 # Soup-Salad-Sandwich
-Revature: Project 1
+Revature: Project 2
 
 ## Project Description
 
